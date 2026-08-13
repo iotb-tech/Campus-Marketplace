@@ -1,4 +1,6 @@
-  export default function MyComponent() {
+import Image from "next/image";
+
+export default function MyComponent() {
   return (
         <div className="hidden lg:flex w-1/2 relative bg-primary-container overflow-hidden        items-center justify-center">
           {/* Left Side: Visual/Branding (Visible on large screens) */}
@@ -53,7 +55,7 @@
 
           {/* Image Accent */}
           <div className="absolute bottom-[-10%] right-[-10%] w-125 h-125 opacity-20">
-            <img
+            <Image
               className="w-full h-full object-cover rounded-full"
               alt="University architecture"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsqbYg5VGtA-bVIB4NhYf4yZDGFJbWBlp8Ag48OQ3tiwuK4zEVeoBzTTxGAHIFQ7I_BdgtVvLG7SFqnbXWIvTg4tQjoJH9ej_QJfAkxVOyV0SzAG8TxV-HeQHYWS0bhx2y074uioFEW9eCrlhroTg6fL5ABL-84SQDoPQQPgERSLDPLWJZrDUp_Iq10ZCIJsno25yJ_IQvBKYUKNeqX-unVvn4nzwNqihYNczXHGZJgeGNO-xRmXA"

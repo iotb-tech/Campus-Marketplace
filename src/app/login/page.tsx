@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Leftside from '../components/Leftside';
+import { signIn } from '../auth/actions';
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +68,8 @@ export default function LoginPage() {
             </div>
 
             {/* Form */}
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form className="space-y-6" onSubmit={handleSubmit} action={signIn}>
+
               <div>
                 <label className="block text-sm font-medium text-on-surface mb-2">
                   Campus Email
