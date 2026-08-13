@@ -191,7 +191,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full h-14 font-bold rounded-xl transition-all transform active:scale-[0.98] shadow-lg shadow-primary/20 text-white ${
+                className={`w-full h-14 font-bold rounded-xl transition-all transform active:scale-[0.98] shadow-lg shadow-primary/20 text-blue hover:*: ${
                   isSuccess
                     ? 'bg-green-600 hover:bg-green-700'
                     : 'bg-primary hover:bg-primary/90'
