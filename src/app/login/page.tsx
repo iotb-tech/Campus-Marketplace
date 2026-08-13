@@ -75,7 +75,7 @@ export default function LoginPage() {
                 <div className="relative group">
                   <input
                     className="w-full h-14 bg-surface-container-low border border-outline-variant rounded-xl px-4 focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-outline outline-none"
-                    placeholder="student@university.edu"
+                    placeholder="email"
                     type="email"
                     required
                   />
@@ -133,7 +133,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full h-14 font-bold rounded-xl transition-all transform active:scale-[0.98] shadow-lg shadow-primary/20 text-blue hover:*: ${
+                className={`w-full h-14 font-bold rounded-xl transition-all transform active:scale-[0.98] shadow-lg shadow-primary/20 text-white ${
                   isSuccess
                     ? 'bg-green-600 hover:bg-green-700'
                     : 'bg-primary hover:bg-primary/90'
