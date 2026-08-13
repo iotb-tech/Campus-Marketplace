@@ -1,26 +1,19 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Material Symbols Icon Font setup */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
-@theme {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Fallback themes for custom utility classes used in the design */
+@layer utilities {
+  .bg-primary-container { background-color: #2170e4; }
+  .bg-surface-container-lowest { background-color: #ffffff; }
+  .bg-surface-container-low { background-color: #f6f2f7; }
+  .bg-background { background-color: #fbf8fc; }
+  .text-primary { color: #0058be; }
+  .text-on-surface { color: #1b1b1e; }
+  .text-on-surface-variant { color: #424754; }
+  .text-outline { color: #727785; }
+  .border-outline-variant { border-color: #c2c6d6; }
 }
