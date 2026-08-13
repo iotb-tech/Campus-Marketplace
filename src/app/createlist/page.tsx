@@ -1,4 +1,4 @@
-export default function CreateList (){
+export default function CreateList() {
     return (
         <div className="flex flex-col py-5 items-center h-screen">
         <div>
