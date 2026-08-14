@@ -69,7 +69,7 @@ export default function LoginPage() {
             </div>
 
             {/* Form */}
-            <form className="space-y-6" onSubmit={handleSubmit} action={signIn}>
+            <form className="space-y-6" action={signIn}>
 
               <div>
                 <label className="block text-sm font-medium text-on-surface mb-2">
@@ -79,6 +79,7 @@ export default function LoginPage() {
                   <input
                     className="w-full h-14 bg-surface-container-low border border-outline-variant rounded-xl px-4 focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-outline outline-none"
                     placeholder="email"
+                    name="email"
                     type="email"
                     required
                   />
@@ -102,6 +103,7 @@ export default function LoginPage() {
                   <input
                     className="grow h-14 bg-transparent border-0 px-4 focus:ring-0 placeholder:text-outline text-on-surface outline-none"
                     placeholder="••••••••"
+                    name="password"
                     type={showPassword ? 'text' : 'password'}
                     required
                   />

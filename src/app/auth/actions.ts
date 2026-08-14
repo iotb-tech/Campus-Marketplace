@@ -16,7 +16,7 @@ export async function signIn(formData: FormData) {
   });
 
   if (error) {
-    redirect(`/login?error=${encodeURIComponent(error.message)}`);
+    redirect(`/signin?error=${encodeURIComponent(error.message)}`);
   }
 
   revalidatePath("/", "layout");
