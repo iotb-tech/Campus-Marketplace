@@ -16,11 +16,7 @@ export async function signIn(formData: FormData) {
   });
 
   if (error) {
-<<<<<<< HEAD
-    redirect("/sign-in?error=Invalid%20email%20or%20password");
-=======
     redirect(`/signin?error=${encodeURIComponent(error.message)}`);
->>>>>>> main
   }
 
   revalidatePath("/", "layout");
