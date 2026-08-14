@@ -63,7 +63,7 @@ export default function LoginPage() {
                 Welcome back, Scholar.
               </h3>
               <p className="text-on-surface-variant">
-                Log in with your academic credentials to continue your research
+                Log in with your credentials to continue your sales 
                 and collaborations.
               </p>
             </div>
@@ -73,7 +73,7 @@ export default function LoginPage() {
 
               <div>
                 <label className="block text-sm font-medium text-on-surface mb-2">
-                  Campus Email
+                   Email
                 </label>
                 <div className="relative group">
                   <input
@@ -82,9 +82,7 @@ export default function LoginPage() {
                     type="email"
                     required
                   />
-                  <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary">
-                    alternate_email
-                  </span>
+                  
                 </div>
               </div>
 
@@ -136,7 +134,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full h-14 font-bold rounded-xl transition-all transform active:scale-[0.98] shadow-lg shadow-primary/20 text-white ${
+                className={`w-full h-14 font-bold rounded-xl transition-all transform active:scale-[0.98] shadow-lg shadow-primary/20 text-blue hover:bg-blue-400 bg-blue-200 ${
                   isSuccess
                     ? 'bg-green-600 hover:bg-green-700'
                     : 'bg-primary hover:bg-primary/90'
