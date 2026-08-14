@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-
+import Leftside from '../components/Leftside';
+import { signIn } from '../auth/actions';
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,66 +27,8 @@ export default function LoginPage() {
   return (
     <div className="bg-background text-on-surface min-h-screen flex flex-col">
       <main className="flex-grow flex items-stretch overflow-hidden">
-        {/* Left Side: Visual/Branding (Visible on large screens) */}
-        <div className="hidden lg:flex w-1/2 relative bg-primary-container overflow-hidden items-center justify-center">
-          <div className="relative z-10 px-20 text-white max-w-2xl">
-            <div className="mb-8 flex items-center gap-3">
-              <div className="p-2 bg-surface-container-lowest rounded-xl">
-                <svg
-                  className="w-10 h-10 text-primary"
-                  fill="none"
-                  viewBox="0 0 48 48"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z"
-                    fill="currentColor"
-                  />
-                </svg>
-              </div>
-              <h1 className="text-3xl font-bold tracking-tight">
-                Academic Exchange
-              </h1>
-            </div>
-            <h2 className="text-5xl font-black mb-6 leading-tight">
-              Elevate your campus journey.
-            </h2>
-            <p className="text-xl opacity-90 leading-relaxed font-light mb-10">
-              A secure space built exclusively for scholars. Join thousands of
-              your peers in sharing insights, resources, and innovation within
-              a trusted community.
-            </p>
-            <div className="grid grid-cols-2 gap-6">
-              <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20">
-                <span className="material-symbols-outlined text-4xl mb-3">
-                  verified_user
-                </span>
-                <h4 className="font-bold text-lg mb-1">Campus Verified</h4>
-                <p className="text-sm opacity-80">
-                  Access restricted to verified university emails only.
-                </p>
-              </div>
-              <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20">
-                <span className="material-symbols-outlined text-4xl mb-3">
-                  groups
-                </span>
-                <h4 className="font-bold text-lg mb-1">Collaborative</h4>
-                <p className="text-sm opacity-80">
-                  Sync with study groups and department projects instantly.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Image Accent */}
-          <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] opacity-20">
-            <img
-              className="w-full h-full object-cover rounded-full"
-              alt="University architecture"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsqbYg5VGtA-bVIB4NhYf4yZDGFJbWBlp8Ag48OQ3tiwuK4zEVeoBzTTxGAHIFQ7I_BdgtVvLG7SFqnbXWIvTg4tQjoJH9ej_QJfAkxVOyV0SzAG8TxV-HeQHYWS0bhx2y074uioFEW9eCrlhroTg6fL5ABL-84SQDoPQQPgERSLDPLWJZrDUp_Iq10ZCIJsno25yJ_IQvBKYUKNeqX-unVvn4nzwNqihYNczXHGZJgeGNO-xRmXA"
-            />
-          </div>
-        </div>
+        {/* Left Side: Visual/Branding */}
+        <Leftside />
 
         {/* Right Side: Login Form */}
         <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-surface-container-lowest">
@@ -125,7 +68,8 @@ export default function LoginPage() {
             </div>
 
             {/* Form */}
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form className="space-y-6" onSubmit={handleSubmit} action={signIn}>
+
               <div>
                 <label className="block text-sm font-medium text-on-surface mb-2">
                   Campus Email
@@ -157,7 +101,7 @@ export default function LoginPage() {
                 </div>
                 <div className="flex w-full items-stretch rounded-xl border border-outline-variant bg-surface-container-low overflow-hidden focus-within:ring-2 focus-within:ring-primary transition-all">
                   <input
-                    className="flex-grow h-14 bg-transparent border-0 px-4 focus:ring-0 placeholder:text-outline text-on-surface outline-none"
+                    className="grow h-14 bg-transparent border-0 px-4 focus:ring-0 placeholder:text-outline text-on-surface outline-none"
                     placeholder="••••••••"
                     type={showPassword ? 'text' : 'password'}
                     required
@@ -191,7 +135,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full h-14 font-bold rounded-xl transition-all transform active:scale-[0.98] shadow-lg shadow-primary/20 text-blue hover:bg-blue-300 ${
+                className={`w-full h-14 font-bold rounded-xl transition-all transform active:scale-[0.98] shadow-lg shadow-primary/20 text-white ${
                   isSuccess
                     ? 'bg-green-600 hover:bg-green-700'
                     : 'bg-primary hover:bg-primary/90'
@@ -231,7 +175,7 @@ export default function LoginPage() {
 
             {/* Switch to Sign Up */}
             <p className="mt-6 text-center text-sm text-on-surface-variant">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <Link
                 href="/signup"
                 className="text-primary font-bold hover:underline"
