@@ -5,13 +5,11 @@ import Link from 'next/link';
 import Button from './button';
 
 interface NavProps {
-  userAvatar?: string;
   userName?: string;
 }
 
-const Nav: React.FC<NavProps> = ({ 
-  userAvatar = "https://via.placeholder.com/40",
-  userName = "User" 
+const Nav: React.FC<NavProps> = ({
+  userName = 'User',
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -22,7 +20,7 @@ const Nav: React.FC<NavProps> = ({
         <Link className="text-xl sm:text-2xl font-bold text-blue-600" href="/">
           CampusMarket
         </Link>
-        
+
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8 flex-1 mx-8">
           {/* Search Bar */}
@@ -34,7 +32,7 @@ const Nav: React.FC<NavProps> = ({
               type="text"
             />
           </div>
-          
+
           {/* Nav Links */}
           <nav className="flex items-center gap-6">
             <Link className="text-blue-600 font-semibold hover:text-blue-700 transition-colors" href="/browse">
@@ -48,33 +46,32 @@ const Nav: React.FC<NavProps> = ({
             </Link>
           </nav>
         </div>
-        
+
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-4">
-          <Button 
+          <Button
             variant="primary"
             size="sm"
             onClick={() => {/* Navigate to post listing */}}
           >
             Post Listing
           </Button>
-          
+
           <button className="p-2 text-gray-600 hover:text-blue-600 transition-colors">
             <span className="material-symbols-outlined">notifications</span>
           </button>
           <button className="p-2 text-gray-600 hover:text-blue-600 transition-colors">
             <span className="material-symbols-outlined">chat_bubble</span>
           </button>
-          
-          <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden border border-gray-300 cursor-pointer">
-            <img
-              alt={`${userName} profile avatar`}
-              className="w-full h-full object-cover"
-              src={userAvatar}
-            />
-          </div>
+
+          <button
+            className="w-10 h-10 rounded-full bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-600 hover:text-blue-600 transition-colors"
+            aria-label={`${userName} profile`}
+          >
+            <span className="material-symbols-outlined text-[24px]">account_circle</span>
+          </button>
         </div>
-        
+
         {/* Mobile Menu Button */}
         <button
           className="md:hidden p-2 text-gray-600 hover:text-blue-600 transition-colors"
@@ -83,7 +80,7 @@ const Nav: React.FC<NavProps> = ({
           <span className="material-symbols-outlined">menu</span>
         </button>
       </div>
-      
+
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-200 p-4">
@@ -97,7 +94,7 @@ const Nav: React.FC<NavProps> = ({
                 type="text"
               />
             </div>
-            
+
             {/* Mobile Nav Links */}
             <Link className="px-4 py-2 text-blue-600 font-semibold hover:bg-blue-50 rounded-lg" href="/browse">
               Browse
@@ -108,9 +105,9 @@ const Nav: React.FC<NavProps> = ({
             <Link className="px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg" href="/my-listings">
               My Listings
             </Link>
-            
+
             {/* Mobile Post Listing Button */}
-            <Button 
+            <Button
               variant="primary"
               size="md"
               className="w-full"
@@ -118,7 +115,7 @@ const Nav: React.FC<NavProps> = ({
             >
               Post Listing
             </Button>
-            
+
             {/* Mobile Action Buttons */}
             <div className="flex gap-2 pt-2 border-t border-gray-200">
               <button className="flex-1 p-2 text-gray-600 hover:bg-gray-50 rounded-lg flex items-center justify-center gap-2">
@@ -130,15 +127,11 @@ const Nav: React.FC<NavProps> = ({
                 <span className="text-sm">Messages</span>
               </button>
             </div>
-            
+
             {/* Mobile Profile */}
             <div className="flex items-center gap-3 pt-2 border-t border-gray-200">
-              <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden border border-gray-300">
-                <img
-                  alt={`${userName} profile avatar`}
-                  className="w-full h-full object-cover"
-                  src={userAvatar}
-                />
+              <div className="w-10 h-10 rounded-full bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-600">
+                <span className="material-symbols-outlined text-[24px]">account_circle</span>
               </div>
               <span className="text-gray-800 font-medium">{userName}</span>
             </div>
