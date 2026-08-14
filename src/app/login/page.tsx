@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Leftside from '../components/Leftside';
 import { signIn } from '../auth/actions';
+
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +27,7 @@ export default function LoginPage() {
 
   return (
     <div className="bg-background text-on-surface min-h-screen flex flex-col">
-      <main className="flex-grow flex items-stretch overflow-hidden">
+      <main className="flex-row flex items-stretch overflow-hidden">
         {/* Left Side: Visual/Branding */}
         <Leftside />
 
