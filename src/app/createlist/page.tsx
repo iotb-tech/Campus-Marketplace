@@ -6,7 +6,7 @@ export default function CreateList (){
             <div>
                 <p>Fill out the details below to post your item for sale to the campus community</p>
             </div>
-            <div className="border-solid flex mt-4 md:flex-col px-6 rounded-md py-5 w-[700px] h-[1000px] border-1 border-white">
+            <div className="border-solid flex mt-4 flex-col px-6 rounded-md py-5 w-[700px] h-[450px] border-1 border-white">
                 <div>
                     <p>Photos</p>
                     <div className="border-dotted static border-2 rounded-md mt-2 border-white w-[600px] h-[100px]">
