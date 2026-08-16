@@ -1,6 +1,4 @@
 
-import FilterSideBar from "./components/FilterSideBar";
-
 import Link from 'next/link';
 
 export default function Home() {
@@ -11,10 +9,10 @@ export default function Home() {
       
       <div className="flex gap-4 mt-4">
         <Link 
-          href="/login" 
+          href="/signin" 
           className="px-6 py-3 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition-colors"
         >
-          Go to Login
+          Go to Sign In
         </Link>
         <Link 
           href="/signup" 
