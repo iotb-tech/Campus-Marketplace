@@ -1,4 +1,4 @@
-export default function Homepage(){
+export default function Hero(){
     return (
         <div className="flex flex-col bg-white h-screen">
             <div className="flex flex-col sm:w-9/25 px-3">
