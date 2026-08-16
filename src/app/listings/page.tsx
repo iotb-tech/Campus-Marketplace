@@ -1,5 +1,7 @@
 import { createClient } from "@/app/lib/supabase/server";
-import ListingFilters  from "./ListingFilters"
+import ListingFilters from "./ListingFilters";
+import Nav from "../components/Nav";
+import Footer from "../components/Footer";
 
 export default async function BrowsePage() {
   const supabase = await createClient();
@@ -11,7 +13,19 @@ export default async function BrowsePage() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Error fetching listings:", error.message);
+    console.error("LISTINGS ERROR:", error.message);
+
+    return (
+      <main className="p-8">
+        <h1 className="text-2xl font-bold">
+          Marketplace
+        </h1>
+
+        <p className="mt-4 text-red-500">
+          Unable to load listings.
+        </p>
+      </main>
+    );
   }
 
   return (
@@ -21,6 +35,9 @@ export default async function BrowsePage() {
         {/* Pass the fetched Supabase data into your interactive Client Component */}
         <ListingFilters listings={listings || []} />
       </div>
-    </div>
+
+      <ListingFilters listings={listings ?? []} />
+      <Footer />
+    </main>
   );
 }

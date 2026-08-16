@@ -9,6 +9,8 @@ import {
   listingSchema,
   type ListingFormData,
 } from "../../lib/validations/listing";
+import Nav from "@/app/components/Nav";
+import Footer from "@/app/components/Footer";
 
 const categories = [
   { value: "electronics", label: "Electronics" },
@@ -74,6 +76,7 @@ export default function NewListingPage() {
 
   return (
     <main className="max-w-2xl mx-auto p-6">
+      <Nav />
       <h1 className="text-3xl font-bold mb-2">
         Create Listing
       </h1>
@@ -234,6 +237,7 @@ export default function NewListingPage() {
           {isSubmitting ? "Creating..." : "Create Listing"}
         </button>
       </form>
+      <Footer />
     </main>
   );
 }
