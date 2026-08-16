@@ -27,6 +27,7 @@ const categories = [
 ];
 
 export default function ListingPage({ listings }: ListingFiltersProps) {
+    const [search, setSearch] = useState("");
     const [category, setCategory] = useState<string[]>([]);
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
@@ -41,6 +42,10 @@ export default function ListingPage({ listings }: ListingFiltersProps) {
 
     const filteredListings = useMemo(() => {
         return listings.filter((listing) => {
+            const matchesSearch =
+                !search ||
+                listing.title.toLowerCase().includes(search.toLowerCase()) ||
+                listing.description.toLowerCase().includes(search.toLowerCase());
             const matchesCategory =
                 category.length === 0 ||
                 category.includes(listing.category);
@@ -52,12 +57,13 @@ export default function ListingPage({ listings }: ListingFiltersProps) {
                 !maxPrice || listing.price <= Number(maxPrice);
 
             return (
+                matchesSearch &&
                 matchesCategory &&
                 matchesMinPrice &&
                 matchesMaxPrice
             );
         });
-    }, [listings, category, minPrice, maxPrice]);
+    }, [listings,search, category, minPrice, maxPrice]);
 
     return (
     <div className="flex flex-col md:flex-row gap-6 p-6">
@@ -115,6 +121,15 @@ export default function ListingPage({ listings }: ListingFiltersProps) {
 
       {/* RESULTS DISPLAY */}
             <main className="flex-1">
+                <div className="mb-6">
+                    <input
+                        type="text"
+                        placeholder="Search listings by title or description......"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl shadow-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                </div>
                 {/* Listings Grid */}
                 {filteredListings.length === 0 ? (
                     <div className="py-20 text-center">
