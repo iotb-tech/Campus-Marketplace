@@ -1,5 +1,7 @@
 import { createClient } from "@/app/lib/supabase/server";
 import ListingFilters from "./ListingFilters";
+import Nav from "../components/Nav";
+import Footer from "../components/Footer";
 
 export default async function ListingsPage() {
   const supabase = await createClient();
@@ -13,7 +15,9 @@ export default async function ListingsPage() {
     console.error("LISTINGS ERROR:", error.message);
 
     return (
-      <main className="p-8">
+    <main className="p-8">
+      <Nav />
+      
         <h1 className="text-2xl font-bold">
           Marketplace
         </h1>
@@ -21,12 +25,15 @@ export default async function ListingsPage() {
         <p className="mt-4 text-red-500">
           Unable to load listings.
         </p>
+        <Footer />
       </main>
     );
   }
 
   return (
-    <main className="max-w-7xl mx-auto p-6">
+     <main className="max-w-7xl mx-auto p-6">
+      <Nav />
+   
       <div className="mb-8">
         <h1 className="text-3xl font-bold">
           Marketplace
@@ -38,6 +45,7 @@ export default async function ListingsPage() {
       </div>
 
       <ListingFilters listings={listings ?? []} />
+      <Footer />
     </main>
   );
 }
