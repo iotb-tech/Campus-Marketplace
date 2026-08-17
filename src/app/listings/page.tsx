@@ -3,7 +3,7 @@ import ListingFilters from "./ListingFilters";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 
-export default async function BrowsePage() {
+export default async function ListingsPage() {
   const supabase = await createClient();
 
 
