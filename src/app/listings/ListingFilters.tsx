@@ -2,6 +2,7 @@
 
 import { useState, useMemo, } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 type Listing = {
     id: string;
@@ -18,6 +19,7 @@ type ListingFiltersProps = {
 };
 
 const categories = [
+    { value: "all", label: "All Categories" },
     { value: "books", label: "TextBooks" },
     { value: "electronics", label: "Electronics" },
     { value: "furniture", label: "Furniture" },
@@ -47,7 +49,7 @@ export default function ListingPage({ listings }: ListingFiltersProps) {
                 listing.title.toLowerCase().includes(search.toLowerCase()) ||
                 listing.description.toLowerCase().includes(search.toLowerCase());
             const matchesCategory =
-                category.length === 0 ||
+                category === "all" ||
                 category.includes(listing.category);
 
             const matchesMinPrice =
@@ -139,7 +141,7 @@ export default function ListingPage({ listings }: ListingFiltersProps) {
                 ) : (
                     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         {filteredListings.map((listing) => (
-                            <article key={listing.id} className="border rounded-xl p-5 bg-white shadow-sm">
+                            <Link key={listing.id} href={`/listings/${listing.id}`}className="border rounded-xl p-5 bg-white shadow-sm">
                                 <div className="h-48 rounded-lg bg-gray-100 mb-4 flex items-center justify-center overflow-hidden">
                                     {listing.image_url ? (
                                         <Image src={listing.image_url} alt={listing.title} className="w-full h-full object-cover" />
@@ -158,7 +160,7 @@ export default function ListingPage({ listings }: ListingFiltersProps) {
                                         {listing.status}
                                     </span>
                                 </div>
-                            </article>
+                            </Link>
                         ))}
                     </div>
                 )}
