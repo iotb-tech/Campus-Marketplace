@@ -1,63 +1,19 @@
 "use client";
 
-import { createClient } from "@/app/lib/supabase/client";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Footer from "@/app/components/Footer";
+import { signUp } from "@/app/auth/actions";
 
 export default function SignUpPage() {
-  const [error, setError] = useState<string | null>(null);
-  const [message, setMessage] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const searchParams = useSearchParams();
+
+  const error = searchParams.get("error");
+  const message = searchParams.get("message");
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  async function handleSignUp(formData: FormData) {
-    setError(null);
-    setMessage(null);
-    setIsLoading(true);
-
-    const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const confirmPassword = formData.get("confirmPassword") as string;
-
-    // Check that both passwords match
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      setIsLoading(false);
-      return;
-    }
-
-    // Check minimum password length
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      setIsLoading(false);
-      return;
-    }
-
-    const supabase = createClient();
-
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          name,
-        },
-        emailRedirectTo: `${window.location.origin}/auth/confirm`,
-      },
-    });
-
-    if (error) {
-      setError(error.message);
-      setIsLoading(false);
-      return;
-    }
-
-    setMessage("Check your email to confirm your account.");
-    setIsLoading(false);
-  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -86,6 +42,7 @@ export default function SignUpPage() {
       {/* Main */}
       <main className="flex-1 flex items-center justify-center px-4 py-12 sm:py-16">
         <div className="w-full max-w-md">
+
           {/* Heading */}
           <div className="text-center mb-8">
             <div className="mx-auto mb-5 w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center">
@@ -106,7 +63,27 @@ export default function SignUpPage() {
 
           {/* Signup Card */}
           <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 sm:p-8">
-            <form action={handleSignUp} className="space-y-5">
+
+            {/* Error Message */}
+            {error && (
+              <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3">
+                <p className="text-sm text-red-600">
+                  {error}
+                </p>
+              </div>
+            )}
+
+            {/* Success Message */}
+            {message && (
+              <div className="mb-5 rounded-xl border border-green-200 bg-green-50 px-4 py-3">
+                <p className="text-sm text-green-700">
+                  {message}
+                </p>
+              </div>
+            )}
+
+            <form action={signUp} className="space-y-5">
+
               {/* Full Name */}
               <div>
                 <label
@@ -174,7 +151,9 @@ export default function SignUpPage() {
                     }
                   >
                     <span className="material-symbols-outlined">
-                      {showPassword ? "visibility_off" : "visibility"}
+                      {showPassword
+                        ? "visibility_off"
+                        : "visibility"}
                     </span>
                   </button>
                 </div>
@@ -197,7 +176,11 @@ export default function SignUpPage() {
                   <input
                     id="confirmPassword"
                     name="confirmPassword"
-                    type={showConfirmPassword ? "text" : "password"}
+                    type={
+                      showConfirmPassword
+                        ? "text"
+                        : "password"
+                    }
                     placeholder="Confirm your password"
                     minLength={6}
                     required
@@ -207,7 +190,9 @@ export default function SignUpPage() {
                   <button
                     type="button"
                     onClick={() =>
-                      setShowConfirmPassword(!showConfirmPassword)
+                      setShowConfirmPassword(
+                        !showConfirmPassword
+                      )
                     }
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-600"
                     aria-label={
@@ -225,27 +210,12 @@ export default function SignUpPage() {
                 </div>
               </div>
 
-              {/* Error */}
-              {error && (
-                <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3">
-                  <p className="text-sm text-red-600">{error}</p>
-                </div>
-              )}
-
-              {/* Success */}
-              {message && (
-                <div className="rounded-xl border border-green-200 bg-green-50 px-4 py-3">
-                  <p className="text-sm text-green-700">{message}</p>
-                </div>
-              )}
-
               {/* Submit */}
               <button
                 type="submit"
-                disabled={isLoading}
-                className="w-full h-12 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full h-12 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors"
               >
-                {isLoading ? "Creating Account..." : "Create Account"}
+                Create Account
               </button>
             </form>
 

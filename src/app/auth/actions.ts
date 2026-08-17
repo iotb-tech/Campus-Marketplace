@@ -29,7 +29,25 @@ export async function signUp(formData: FormData) {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
+  const confirmPassword = formData.get("confirmPassword") as string;
 
+  // Validate password confirmation
+  if (password !== confirmPassword) {
+    redirect(
+      `/signup?error=${encodeURIComponent("Passwords do not match.")}`
+    );
+  }
+
+  // Validate password length
+  if (password.length < 6) {
+    redirect(
+      `/signup?error=${encodeURIComponent(
+        "Password must be at least 6 characters."
+      )}`
+    );
+  }
+
+  // Create Supabase account
   const { error } = await supabase.auth.signUp({
     email,
     password,
@@ -41,15 +59,20 @@ export async function signUp(formData: FormData) {
     },
   });
 
+  // Supabase signup error
   if (error) {
     redirect(`/signup?error=${encodeURIComponent(error.message)}`);
   }
 
+  // Successful signup
   redirect(
-    "/signup?message=Check%20your%20email%20to%20confirm%20your%20account"
+    `/signup?message=${encodeURIComponent(
+      "Account created successfully. Check your email to confirm your account."
+    )}`
   );
 }
 
+// Sign out
 export async function signOut() {
   const supabase = await createClient();
 
