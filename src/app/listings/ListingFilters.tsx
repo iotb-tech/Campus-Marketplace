@@ -19,13 +19,12 @@ type ListingFiltersProps = {
 };
 
 const categories = [
-  { value: "all", label: "All Categories" },
   { value: "books", label: "TextBooks" },
   { value: "electronics", label: "Electronics" },
   { value: "furniture", label: "Furniture" },
   { value: "clothing", label: "Clothing" },
   { value: "school_supplies", label: "Supplies" },
-  { value: "others", label: "Ohers" },
+  { value: "others", label: "Others" },
 ];
 
 export default function ListingPage({ listings }: ListingFiltersProps) {
