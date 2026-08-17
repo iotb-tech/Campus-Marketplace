@@ -1,16 +1,15 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import Button from './button';
+import React, { useState } from "react";
+import Link from "next/link";
+import Button from "./button";
+import { signOut } from "../auth/actions";
 
 interface NavProps {
   userName?: string;
 }
 
-const Nav: React.FC<NavProps> = ({
-  userName = 'User',
-}) => {
+const Nav: React.FC<NavProps> = ({ userName = "User" }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -25,7 +24,9 @@ const Nav: React.FC<NavProps> = ({
         <div className="hidden md:flex items-center gap-8 flex-1 mx-8">
           {/* Search Bar */}
           <div className="hidden lg:flex items-center bg-gray-100 rounded-full px-4 py-2 border border-gray-200 focus-within:border-blue-500 flex-1 max-w-xs">
-            <span className="material-symbols-outlined text-gray-400 mr-2">search</span>
+            <span className="material-symbols-outlined text-gray-400 mr-2">
+              search
+            </span>
             <input
               className="bg-transparent border-none outline-none w-full text-sm text-gray-800 placeholder:text-gray-400"
               placeholder="Search items..."
@@ -35,13 +36,22 @@ const Nav: React.FC<NavProps> = ({
 
           {/* Nav Links */}
           <nav className="flex items-center gap-6">
-            <Link className="text-blue-600 font-semibold hover:text-blue-700 transition-colors" href="/browse">
+            <Link
+              className="text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+              href="/browse"
+            >
               Browse
             </Link>
-            <Link className="text-gray-600 hover:text-blue-600 transition-colors" href="/categories">
+            <Link
+              className="text-gray-600 hover:text-blue-600 transition-colors"
+              href="/categories"
+            >
               Categories
             </Link>
-            <Link className="text-gray-600 hover:text-blue-600 transition-colors" href="/my-listings">
+            <Link
+              className="text-gray-600 hover:text-blue-600 transition-colors"
+              href="/my-listings"
+            >
               My Listings
             </Link>
           </nav>
@@ -52,7 +62,9 @@ const Nav: React.FC<NavProps> = ({
           <Button
             variant="primary"
             size="sm"
-            onClick={() => {/* Navigate to post listing */}}
+            onClick={() => {
+              /* Navigate to post listing */
+            }}
           >
             Post Listing
           </Button>
@@ -60,6 +72,7 @@ const Nav: React.FC<NavProps> = ({
           <button className="p-2 text-gray-600 hover:text-blue-600 transition-colors">
             <span className="material-symbols-outlined">notifications</span>
           </button>
+
           <button className="p-2 text-gray-600 hover:text-blue-600 transition-colors">
             <span className="material-symbols-outlined">chat_bubble</span>
           </button>
@@ -68,8 +81,17 @@ const Nav: React.FC<NavProps> = ({
             className="w-10 h-10 rounded-full bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-600 hover:text-blue-600 transition-colors"
             aria-label={`${userName} profile`}
           >
-            <span className="material-symbols-outlined text-[24px]">account_circle</span>
+            <span className="material-symbols-outlined text-[24px]">
+              account_circle
+            </span>
           </button>
+
+          {/* Logout */}
+          <form action={signOut}>
+            <Button type="submit" variant="secondary" size="sm">
+              Log out
+            </Button>
+          </form>
         </div>
 
         {/* Mobile Menu Button */}
@@ -87,7 +109,9 @@ const Nav: React.FC<NavProps> = ({
           <div className="flex flex-col gap-4">
             {/* Mobile Search */}
             <div className="flex items-center bg-gray-100 rounded-lg px-3 py-2 border border-gray-200">
-              <span className="material-symbols-outlined text-gray-400 mr-2">search</span>
+              <span className="material-symbols-outlined text-gray-400 mr-2">
+                search
+              </span>
               <input
                 className="bg-transparent border-none outline-none w-full text-sm text-gray-800 placeholder:text-gray-400"
                 placeholder="Search items..."
@@ -96,13 +120,22 @@ const Nav: React.FC<NavProps> = ({
             </div>
 
             {/* Mobile Nav Links */}
-            <Link className="px-4 py-2 text-blue-600 font-semibold hover:bg-blue-50 rounded-lg" href="/browse">
+            <Link
+              className="px-4 py-2 text-blue-600 font-semibold hover:bg-blue-50 rounded-lg"
+              href="/browse"
+            >
               Browse
             </Link>
-            <Link className="px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg" href="/categories">
+            <Link
+              className="px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
+              href="/categories"
+            >
               Categories
             </Link>
-            <Link className="px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg" href="/my-listings">
+            <Link
+              className="px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg"
+              href="/my-listings"
+            >
               My Listings
             </Link>
 
@@ -111,7 +144,9 @@ const Nav: React.FC<NavProps> = ({
               variant="primary"
               size="md"
               className="w-full"
-              onClick={() => {/* Navigate to post listing */}}
+              onClick={() => {
+                /* Navigate to post listing */
+              }}
             >
               Post Listing
             </Button>
@@ -131,10 +166,25 @@ const Nav: React.FC<NavProps> = ({
             {/* Mobile Profile */}
             <div className="flex items-center gap-3 pt-2 border-t border-gray-200">
               <div className="w-10 h-10 rounded-full bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-600">
-                <span className="material-symbols-outlined text-[24px]">account_circle</span>
+                <span className="material-symbols-outlined text-[24px]">
+                  account_circle
+                </span>
               </div>
+
               <span className="text-gray-800 font-medium">{userName}</span>
             </div>
+
+            {/* Mobile Logout */}
+            <form action={signOut} className="pt-2">
+              <Button
+                type="submit"
+                variant="secondary"
+                size="md"
+                className="w-full"
+              >
+                Log out
+              </Button>
+            </form>
           </div>
         </div>
       )}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 
 type Listing = {
   id: string;
@@ -121,10 +122,11 @@ export default function ListingFilters({
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredListings.map((listing) => (
-            <article
-              key={listing.id}
-              className="border rounded-xl p-5 bg-white shadow-sm"
-            >
+            <Link
+  key={listing.id}
+  href={`/listings/${listing.id}`}
+  className="block border rounded-xl p-5 bg-white shadow-sm hover:shadow-md transition-shadow"
+>
               <div className="h-48 rounded-lg bg-gray-100 mb-4 flex items-center justify-center overflow-hidden">
                 {listing.image_url ? (
                   <img
@@ -166,7 +168,7 @@ export default function ListingFilters({
                   {listing.status}
                 </span>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       )}
