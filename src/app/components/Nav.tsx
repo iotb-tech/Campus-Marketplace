@@ -38,7 +38,7 @@ const Nav: React.FC<NavProps> = ({ userName = "User" }) => {
           <nav className="flex items-center gap-6">
             <Link
               className="text-blue-600 font-semibold hover:text-blue-700 transition-colors"
-              href="/browse"
+              href="/listings"
             >
               Browse
             </Link>
