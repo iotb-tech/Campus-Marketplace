@@ -13,6 +13,6 @@ export async function POST(request: Request) {
 
   revalidatePath("/", "layout");
 
-  return NextResponse.redirect(new URL("/sign-in", request.url));
+  return NextResponse.redirect(new URL("/signin", request.url));
 }
 
