@@ -49,3 +49,12 @@ export async function signUp(formData: FormData) {
     "/signup?message=Check%20your%20email%20to%20confirm%20your%20account"
   );
 }
+
+export async function signOut() {
+  const supabase = await createClient();
+
+  await supabase.auth.signOut();
+
+  revalidatePath("/", "layout");
+  redirect("/signin");
+}
