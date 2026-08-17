@@ -1,12 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Footer from "@/app/components/Footer";
 import { signUp } from "@/app/auth/actions";
 
 export default function SignUpPage() {
+  return (
+    <Suspense>
+      <SignUpContent />
+    </Suspense>
+  );
+}
+
+function SignUpContent() {
   const searchParams = useSearchParams();
 
   const error = searchParams.get("error");
