@@ -7,9 +7,9 @@ import FreshProducts from './components/FreshProduct';
 import Hero from './components/Hero';
 import BuiltForStudent from './components/Student';
 
-import calculus  from '../assets/calculus.jpg'
+import calculus  from './assets/calculus.jpg'
 
-import salesItem  from '../assets/salesitem.jpg'
+import salesItem  from './assets/salesitem.jpg'
 
 const categoriesItems = [
   {
