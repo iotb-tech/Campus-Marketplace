@@ -58,10 +58,12 @@ const Nav: React.FC<NavProps> = ({ userName = "User" }) => {
         </div>
 
         {/* Desktop Actions */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-3">
+          {/* Primary CTA */}
           <Button
             variant="primary"
             size="sm"
+            className="bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors"
             onClick={() => {
               /* Navigate to post listing */
             }}
@@ -69,29 +71,27 @@ const Nav: React.FC<NavProps> = ({ userName = "User" }) => {
             Post Listing
           </Button>
 
-          <button className="p-2 text-gray-600 hover:text-blue-600 transition-colors">
-            <span className="material-symbols-outlined">notifications</span>
-          </button>
+          {/* Inverted / Secondary CTA */}
+          <form action={signOut}>
+            <Button
+              type="submit"
+              variant="secondary"
+              size="sm"
+              className="bg-transparent border border-blue-600 text-blue-600 font-semibold rounded-xl hover:bg-blue-50 transition-colors"
+            >
+              Log out
+            </Button>
+          </form>
 
-          <button className="p-2 text-gray-600 hover:text-blue-600 transition-colors">
-            <span className="material-symbols-outlined">chat_bubble</span>
-          </button>
-
+          {/* Profile Avatar */}
           <button
-            className="w-10 h-10 rounded-full bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-600 hover:text-blue-600 transition-colors"
+            className="w-10 h-10 rounded-full bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-600 hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             aria-label={`${userName} profile`}
           >
             <span className="material-symbols-outlined text-[24px]">
               account_circle
             </span>
           </button>
-
-          {/* Logout */}
-          <form action={signOut}>
-            <Button type="submit" variant="secondary" size="sm">
-              Log out
-            </Button>
-          </form>
         </div>
 
         {/* Mobile Menu Button */}
