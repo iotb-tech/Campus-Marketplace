@@ -20,34 +20,32 @@ export default function MyComponent() {
                 </svg>
               </div>
               <h1 className="text-3xl font-bold tracking-tight">
-                Academic Exchange
+                Campus Market
               </h1>
             </div>
-            <h2 className="text-5xl font-black mb-6 leading-tight">
-              Elevate your campus journey.
+            <h2 className="text-4xl font-black mb-6 leading-tight">
+              Shop. Sell. Connect.
             </h2>
             <p className="text-xl opacity-90 leading-relaxed font-light mb-10">
-              A secure space built exclusively for scholars. Join thousands of
-              your peers in sharing insights, resources, and innovation within
-              a trusted community.
+             Your Campus Marketplace for buying  and selling items with students.Discover great deals, list what you no longer need, and trade with student around you.
             </p>
             <div className="grid grid-cols-2 gap-6">
               <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20">
                 <span className="material-symbols-outlined text-4xl mb-3">
                   verified_user
                 </span>
-                <h4 className="font-bold text-lg mb-1">Campus Verified</h4>
+                <h4 className="font-bold text-lg mb-1">Student-Friendly Deals</h4>
                 <p className="text-sm opacity-80">
-                  Access restricted to verified university emails only.
+                  Discover affordable secondhand essentials, from textbook and gadgets to fashion and everyday items.
                 </p>
               </div>
               <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20">
                 <span className="material-symbols-outlined text-4xl mb-3">
                   groups
                 </span>
-                <h4 className="font-bold text-lg mb-1">Collaborative</h4>
+                <h4 className="font-bold text-lg mb-1">Buy & Sell on Campus</h4>
                 <p className="text-sm opacity-80">
-                  Sync with study groups and department projects instantly.
+                  Find useful items from student around you, or turn things you no longer need into cash.
                 </p>
               </div>
             </div>
