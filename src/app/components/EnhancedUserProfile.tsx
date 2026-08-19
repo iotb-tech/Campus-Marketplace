@@ -6,6 +6,7 @@ import Footer from '../components/Footer';
 import Button from '../components/button';
 import ProfileSidebar from '../components/ProfileSidebar';
 import Toggle from '../components/Toggle';
+import { updateProfile } from '../profile/actions';
 
 interface UserProfileData {
   fullName: string;
@@ -16,21 +17,14 @@ interface UserProfileData {
   graduationYear: string;
 }
 
-const EnhancedUserProfile: React.FC = () => {
+const EnhancedUserProfile: React.FC<{ initialProfile: UserProfileData }> = ({ initialProfile }) => {
   const [activeSection, setActiveSection] = useState('personal-info');
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [pushNotifications, setPushNotifications] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
 
-  const [profileData, setProfileData] = useState<UserProfileData>({
-    fullName: 'Alex Johnson',
-    email: 'ajohnson@unilag.edu.ng',
-    phoneNumber: '+234 800 000 0000',
-    major: 'Computer Science',
-    bio: 'Third-year student passionate about technology and sustainability.',
-    graduationYear: '2026',
-  });
+  const [profileData, setProfileData] = useState<UserProfileData>(initialProfile);
 
   const handleInputChange = (field: keyof UserProfileData, value: string) => {
     setProfileData(prev => ({ ...prev, [field]: value }));
@@ -40,9 +34,11 @@ const EnhancedUserProfile: React.FC = () => {
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await updateProfile(profileData);
       setIsSaved(true);
       setTimeout(() => setIsSaved(false), 3000);
+    } catch {
+      // Save failed — user stays on page, can retry
     } finally {
       setIsSaving(false);
     }
