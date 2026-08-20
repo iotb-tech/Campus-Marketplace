@@ -1,4 +1,4 @@
-
+import { createClient } from "@/app/lib/supabase/server";
 import Link from 'next/link';
 import About from './components/About';
 import CategoriesCard from './components/CategoriesCard';
@@ -17,6 +17,7 @@ const categoriesItems = [
     image : salesItem.src,
     title:"Textbooks",
     numberOfListings:1240
+    
   },
    {
     image : salesItem.src,
@@ -35,6 +36,7 @@ const categoriesItems = [
   },
 ]
 
+
 const  freshProductItems = {
     image: calculus.src,
     isFavourite:true,
@@ -44,7 +46,8 @@ const  freshProductItems = {
     price:550, 
 }
 
-export default function Home() {
+export default async function Home() {
+
   return (
     
     <div className="min-h-screen flex flex-col items-center justify-center py-8 text-center gap-4">
@@ -63,7 +66,7 @@ export default function Home() {
         <Link href="/categories" className="text-primary">View All</Link>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4  gap-4 py-12  justify-between">
-         <CategoriesCard categories={categoriesItems}/>
+         <CategoriesCard /> 
       </div>
 
       <div className="flex flex-row justify-between">
