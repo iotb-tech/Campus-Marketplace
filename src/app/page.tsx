@@ -7,9 +7,10 @@ import FreshProducts from './components/FreshProduct';
 import Hero from './components/Hero';
 import BuiltForStudent from './components/Student';
 
-import calculus  from '../assets/calculus.jpg'
-
-import salesItem  from '../assets/salesitem.jpg'
+import calculus  from './assets/calculus.jpg'
+import salesItem  from './assets/salesitem.jpg'
+import Nav from './components/Nav';
+import Footer from './components/Footer';
 
 const categoriesItems = [
   {
@@ -46,20 +47,29 @@ const  freshProductItems = {
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center gap-4">
+      <Nav />
         <main className="px-6">
       <Hero />
       <About />
-      <div className="flex flex-col sm:flex-row px-6 justify-between">
+      <div className="flex flex-col sm:flex-row  justify-between">
         <DescriptionCard />
         <DescriptionCard />
         <DescriptionCard />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4  gap-4 py-12 px-2 justify-between">
+      <div className="flex flex-row justify-between">
+        <div className="text-2xl font-bold">Explore Catgeories</div>
+        <Link href="/categories" className="text-primary">View All</Link>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-4  gap-4 py-12  justify-between">
          <CategoriesCard categories={categoriesItems}/>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 py-6 overflow-x-auto gap-4 px-2 justify-between">
+      <div className="flex flex-row justify-between">
+        <div className="text-2xl font-bold">Fresh on Campus</div>
+        <Link href="/my-listings" className="text-primary">View All</Link>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 py-6 overflow-x-auto gap-4 justify-between">
         <FreshProducts />
         <FreshProducts />
         <FreshProducts />
@@ -68,6 +78,7 @@ export default function Home() {
      
       <BuiltForStudent />
     </main>
+    <Footer />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import campusmarket from "../assets/campusmarket.jpg"
 export default function Hero(){
     return (
-        <section className="pt-24 pb-10 ">
+        <section className="pt-12 sm:pt-24 pb-10 ">
         <div className="grid grid-cols-1 sm:grid-cols-2 py-3 ">
             <div className="w-full flex flex-col text-left gap-1">
                 <div className="py-4">
@@ -15,6 +15,7 @@ export default function Hero(){
                     Connect with verified students at your university. Buy textbooks, sell furnitures, and discover local deals safely and sustainably
                 </p>
                 <div className="flex flex-col gap-6 sm:flex-row">
+                  
                     <button className="rounded-lg px-12 py-3 sm:px-8 sm:py-3 bg-[#3b82f6] hover:opacity-90 text-sm text-white font-normal">Browse Listings</button>
                     <button className="border-1 border-outline bg-surface rounded-lg px-12 py-3 sm:px-8 sm:py-3  text-sm text-zinc-700 font-bold">How it works</button>
                 </div>
