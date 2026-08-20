@@ -46,8 +46,9 @@ const  freshProductItems = {
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-8 text-center gap-4">
-      <Nav />
+    
+    <div className="min-h-screen flex flex-col items-center justify-center py-8 text-center gap-4">
+          <Nav />
         <main className="px-6">
       <Hero />
       <About />

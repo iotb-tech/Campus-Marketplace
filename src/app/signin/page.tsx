@@ -185,24 +185,6 @@ export default function LoginPage() {
               </Link>
             </p>
 
-            {/* Trust Banner */}
-            <div className="mt-10 pt-8 border-t border-outline-variant flex flex-col items-center">
-              <p className="text-xs font-bold text-outline uppercase tracking-widest mb-6">
-                Secured by University Auth Services
-              </p>
-              <div className="flex gap-8 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
-                <div className="flex items-center gap-1 font-black text-xl italic">
-                  MIT
-                </div>
-                <div className="flex items-center gap-1 font-black text-xl italic text-red-800">
-                  STANFORD
-                </div>
-                <div className="flex items-center gap-1 font-black text-xl italic text-blue-900">
-                  OXFORD
-                </div>
-              </div>
-            </div>
-
             <footer className="mt-10 text-center">
               <p className="text-sm text-on-surface-variant">
                 By signing in, you agree to the{' '}
