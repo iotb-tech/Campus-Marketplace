@@ -1,5 +1,5 @@
 import { createClient } from "@/app/lib/supabase/server";
-import furniture from "../assets/furniture.jpg";
+import Link from "next/link";
 
 const categoryMeta: Record<string, { label: string; icon: string; description: string }> = {
   electronics: { label: "Electronics", icon: "devices", description: "Laptops, phones, gadgets and more" },
@@ -11,33 +11,33 @@ const categoryMeta: Record<string, { label: string; icon: string; description: s
   other: { label: "Other", icon: "category", description: "Everything else" },
 };
 
-export default async function CategoriesCard (){
+export default async function CategoriesCard() {
+  const supabase = await createClient();
 
-    
-   const supabase = await createClient();
-  
-    const { data } = await supabase
-      .from("listings")
-      .select("category")
-      .eq("status", "available");
-  
-    const category = data!;
-    const counts: Record<string, number> = {};
-    data?.forEach((row) => {
-      counts[row.category] = (counts[row.category] || 0) + 1;
-    });
-    
+  const { data } = await supabase
+    .from("listings")
+    .select("category")
+    .eq("status", "available");
 
-    return Object.entries(categoryMeta).map(([key, meta]) =>(
-            <div className="relative h-48 rounded-lg rounded-blue-200" key={key}>
-            <img src={furniture.src} className="rounded-lg  h-full" alt="Book Image" />
-            <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-            <div className=" flex flex-col absolute left-8 bottom-3">      
-            <strong className="font-bold text-xl text-white"> {meta.label}</strong>
-            <span className="font-thin text-white text-sm">{counts[key] || 0} item{counts[key] !== 1 ? "s" : ""}    Listings</span>
-            </div>
-        </div>
-    ))
-    
-    
+  const counts: Record<string, number> = {};
+  data?.forEach((row) => {
+    counts[row.category] = (counts[row.category] || 0) + 1;
+  });
+
+  return Object.entries(categoryMeta).map(([key, meta]) => (
+    <Link
+      key={key}
+      href={`/listings?category=${key}`}
+      className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
+    >
+      <span className="material-symbols-outlined text-blue-600 text-3xl">
+        {meta.icon}
+      </span>
+      <h2 className="text-xl font-semibold mt-3">{meta.label}</h2>
+      <p className="text-gray-500 mt-1">{meta.description}</p>
+      <p className="text-sm text-blue-600 font-medium mt-4">
+        {counts[key] || 0} item{counts[key] !== 1 ? "s" : ""}
+      </p>
+    </Link>
+  ));
 }
