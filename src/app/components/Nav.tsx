@@ -48,24 +48,12 @@ const Nav: React.FC<NavProps> = ({ userName = 'User' }) => {
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-3">
-          <Link href="/listings/new">
-            <Button variant="primary" size="sm">Post Listing</Button>
-          </Link>
-
-          <button className="p-2 text-gray-600 hover:text-blue-600 transition-colors">
-            <span className="material-symbols-outlined text-[22px]">notifications</span>
-          </button>
-
-          <button className="p-2 text-gray-600 hover:text-blue-600 transition-colors">
-            <span className="material-symbols-outlined text-[22px]">chat_bubble</span>
-          </button>
-
           <Link
             href="/profile"
-            className="w-9 h-9 rounded-full bg-gray-100 border border-gray-300 flex items-center justify-center text-gray-600 hover:text-blue-600 hover:border-blue-300 transition-colors"
-            aria-label={`${userName} profile`}
+            className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+            aria-label="Profile"
           >
-            <span className="material-symbols-outlined text-[22px]">account_circle</span>
+            <span className="material-symbols-outlined text-[24px]">account_circle</span>
           </Link>
 
           <form action={signOut}>

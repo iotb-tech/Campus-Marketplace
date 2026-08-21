@@ -1,33 +1,125 @@
-import campusmarket from "../assets/campusmarket.jpg"
-export default function Hero(){
-    return (
-        <section className="pt-12 sm:pt-24 pb-10 ">
-        <div className="grid grid-cols-1 sm:grid-cols-2 py-3 ">
-            <div className="w-full flex flex-col text-left gap-1">
-                <div className="py-4">
-                <span className="border-1  border-solid border-blue-300 rounded-lg bg-blue-100 px-2 text-sm text-blue-600">Trusted by <b>10,000+</b> students</span>
-               </div>
-               <div className="flex flex-col py-4 gap-1">
-                    <strong className="text-zinc-950 text-3xl">The safest way to buy </strong>
-                    <strong className="text-zinc-950 text-3xl">and sell on campus</strong>
-                </div>
-                <p className="text-zinc-600 font-medium text-sm py-6">
-                    Connect with verified students at your university. Buy textbooks, sell furnitures, and discover local deals safely and sustainably
+import campusmarket from "../assets/campusmarket.jpg";
+
+export default function Hero() {
+  return (
+    <section className="w-full bg-white px-4 py-8 sm:px-6 sm:py-15 lg:px-8">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+
+        {/* LEFT SIDE */}
+        <div className="flex w-full flex-col text-left">
+
+          {/* Trust Badge */}
+          <div className="mb-6">
+            <span className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-600">
+              <span className="mr-2">✓</span>
+              Trusted by <b className="ml-1">500+</b>&nbsp; students
+            </span>
+          </div>
+
+          {/* Heading */}
+          <div>
+            <h1 className="max-w-xl text-4xl font-bold leading-tight tracking-tight text-zinc-950 sm:text-5xl">
+              The safest way to{" "}
+              <span className="text-blue-600">buy</span> and{" "}
+              <span className="text-emerald-600">sell</span> on campus
+            </h1>
+          </div>
+
+          {/* Description */}
+          <p className="mt-6 max-w-xl text-base leading-7 text-slate-600 sm:text-lg">
+            Connect with verified students at your university. Buy textbooks,
+            sell furniture, and discover local deals safely and sustainably.
+          </p>
+
+          {/* Buttons */}
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+            <button
+              className="rounded-lg bg-blue-600 px-8 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
+            >
+              Browse Listings
+            </button>
+
+            <button
+              className="rounded-lg border border-slate-300 bg-white px-8 py-3.5 text-sm font-semibold text-slate-700 transition hover:border-blue-400 hover:text-blue-600"
+            >
+              How it works
+            </button>
+          </div>
+
+          {/* Trust Features */}
+          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
+
+            {/* Verified Students */}
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+                <span className="text-lg">✓</span>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-slate-900">
+                  Verified Students
+                </h3>
+
+                <p className="mt-1 text-xs leading-5 text-slate-500">
+                  University email verification
                 </p>
-                <div className="flex flex-col gap-6 sm:flex-row">
-                  
-                    <button className="rounded-lg px-12 py-3 sm:px-8 sm:py-3 bg-[#3b82f6] hover:opacity-90 text-sm text-white font-normal">Browse Listings</button>
-                    <button className="border-1 border-outline bg-surface rounded-lg px-12 py-3 sm:px-8 sm:py-3  text-sm text-zinc-700 font-bold">How it works</button>
-                </div>
+              </div>
             </div>
 
-            <div className="relative w-full p-3">
-            <div className="absolute w-full h-100 rounded-lg rotate-4 px-4 py-4 bg-[#f6f2f7]"></div>
-            <div className="w-full relative m-4">
-                <img src={campusmarket.src} className="relative z-10 w-full h-[400px] object-cover rounded-[2rem] shadow-lg " alt="Hero Image"/>
+            {/* Private & Secure */}
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+                <span className="material-symbols-outlined text-lg">forum</span>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-slate-900">
+                  Private & Secure
+                </h3>
+
+                <p className="mt-1 text-xs leading-5 text-slate-500">
+                  In-app messaging keeps you private
+                </p>
+              </div>
             </div>
+
+            {/* Community Trust */}
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+                <span className="text-lg">★</span>
+              </div>
+
+              <div>
+                <h3 className="text-sm font-semibold text-slate-900">
+                  Community Trust
+                </h3>
+
+                <p className="mt-1 text-xs leading-5 text-slate-500">
+                  Report system keeps the community trusted
+                </p>
+              </div>
             </div>
+
+          </div>
         </div>
-        </section>
-    )
+
+        {/* RIGHT SIDE / IMAGE */}
+        <div className="relative w-full">
+
+          {/* Decorative background */}
+          <div className="absolute inset-0 translate-x-3 translate-y-3 rotate-2 rounded-[1.5rem] bg-purple-50 sm:translate-x-5 sm:translate-y-5" />
+
+          {/* Image container */}
+          <div className="relative overflow-hidden rounded-[1.5rem] bg-white shadow-xl">
+            <img
+              src={campusmarket.src}
+              alt="Students buying and selling items on campus"
+              className="h-[350px] w-full object-cover sm:h-[450px] lg:h-[500px]"
+            />
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
 }

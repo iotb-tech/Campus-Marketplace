@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Academic Exchange | Login",
-  description: "Login page for Campus Marketplace",
+  title: "Campus Marketplace",
+  description: "A platform for students to buy and sell items on campus.",
 };
 
 export default function RootLayout({
