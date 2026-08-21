@@ -9,6 +9,7 @@ export interface ProfileData {
   major: string;
   bio: string;
   graduationYear: string;
+  avatarUrl: string;
 }
 
 export async function getProfile(): Promise<ProfileData | null> {
@@ -21,7 +22,7 @@ export async function getProfile(): Promise<ProfileData | null> {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("name, phone_number, major, bio, graduation_year")
+    .select("name, phone_number, major, bio, graduation_year, avatar_url")
     .eq("id", userId)
     .single();
 
@@ -34,6 +35,7 @@ export async function getProfile(): Promise<ProfileData | null> {
     major: profile?.major ?? "",
     bio: profile?.bio ?? "",
     graduationYear: profile?.graduation_year ?? "",
+    avatarUrl: profile?.avatar_url ?? "",
   };
 }
 
@@ -53,6 +55,7 @@ export async function updateProfile(data: ProfileData) {
       major: data.major,
       bio: data.bio,
       graduation_year: data.graduationYear,
+      avatar_url: data.avatarUrl,
     })
     .eq("id", userId);
 

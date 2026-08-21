@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
 import Button from '../components/button';
 import ProfileSidebar from '../components/ProfileSidebar';
 import Toggle from '../components/Toggle';
 import { updateProfile } from '../profile/actions';
+import { uploadImageToCloudinary } from '@/app/lib/cloudinary';
 
 interface UserProfileData {
   fullName: string;
@@ -15,6 +16,7 @@ interface UserProfileData {
   major: string;
   bio: string;
   graduationYear: string;
+  avatarUrl: string;
 }
 
 const EnhancedUserProfile: React.FC<{ initialProfile: UserProfileData }> = ({ initialProfile }) => {
@@ -23,6 +25,9 @@ const EnhancedUserProfile: React.FC<{ initialProfile: UserProfileData }> = ({ in
   const [pushNotifications, setPushNotifications] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const [profileData, setProfileData] = useState<UserProfileData>(initialProfile);
 
@@ -41,6 +46,15 @@ const EnhancedUserProfile: React.FC<{ initialProfile: UserProfileData }> = ({ in
       // Save failed — user stays on page, can retry
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      uploadImageToCloudinary(file).then(setImageUrl);
+      setProfileData(prev => ({ ...prev, avatarUrl: imageUrl || prev.avatarUrl }));
     }
   };
 
@@ -122,6 +136,37 @@ const EnhancedUserProfile: React.FC<{ initialProfile: UserProfileData }> = ({ in
                   value={profileData.bio}
                   onChange={(e) => handleInputChange('bio', e.target.value)}
                 />
+              </div>
+              {imageUrl && (
+                <div className="mt-4">
+                  <img
+                    src={imageUrl}
+                    alt="Profile picture preview"
+                    className="w-20 h-20 rounded-full object-cover border-2 border-gray-200"
+                  />
+                  <p className="text-xs text-gray-500 mt-2">Current preview</p>
+                </div>
+              )}
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-600 mb-1">
+                  Profile Picture
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={onFileChange}
+                    className="hidden"
+                    ref={fileRef}
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => fileRef.current?.click()}
+                    className="w-auto"
+                  >
+                    <span className="material-symbols-outlined text-[14px]">photo</span>
+                    Upload
+                  </Button>
+                </label>
               </div>
               <div className="flex items-center gap-3 pt-2">
                 <Button variant="primary" onClick={handleSave} disabled={isSaving} className="px-6">
