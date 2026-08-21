@@ -2,7 +2,7 @@ import campusmarket from "../assets/campusmarket.jpg";
 
 export default function Hero() {
   return (
-    <section className="w-full bg-white px-4 py-12 sm:px-6 sm:py-20 lg:px-8">
+    <section className="w-full bg-white px-4 py-8 sm:px-6 sm:py-15 lg:px-8">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
 
         {/* LEFT SIDE */}
@@ -69,7 +69,7 @@ export default function Hero() {
             {/* Private & Secure */}
             <div className="flex items-start gap-3">
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600">
-                <span className="text-lg">💬</span>
+                <span className="material-symbols-outlined text-lg">forum</span>
               </div>
 
               <div>

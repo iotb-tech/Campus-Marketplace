@@ -59,7 +59,7 @@ export default async function Home() {
 
         <div className="flex flex-row justify-between">
           <div className="text-2xl font-bold">Explore Categories</div>
-          <Link href="/categories" className="text-primary">View All</Link>
+          <Link href="/signin" className="text-primary">View All</Link>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 py-12">
           <CategoriesCard /> 
@@ -67,12 +67,9 @@ export default async function Home() {
 
         <div className="flex flex-row justify-between">
           <div className="text-2xl font-bold">Fresh on Campus</div>
-          <Link href="/my-listings" className="text-primary">View All</Link>
+          <Link href="/signin" className="text-primary">View All</Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 py-6 overflow-x-auto gap-4 justify-between">
-          <FreshProducts />
-          <FreshProducts />
-          <FreshProducts />
           <FreshProducts />
         </div>
 

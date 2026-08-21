@@ -48,8 +48,12 @@ const Nav: React.FC<NavProps> = ({ userName = 'User' }) => {
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-3">
-          <Link href="/listings/new">
-            <Button variant="primary" size="sm">Post Listing</Button>
+          <Link
+            href="/profile"
+            className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+            aria-label="Profile"
+          >
+            <span className="material-symbols-outlined text-[24px]">account_circle</span>
           </Link>
 
           <form action={signOut}>

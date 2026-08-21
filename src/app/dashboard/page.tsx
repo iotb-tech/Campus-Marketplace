@@ -7,6 +7,14 @@ import MarkSoldButton from "../components/MarkSoldButton";
 import Link from "next/link";
 import Image from "next/image";
 
+function formatDate(dateString: string) {
+  return new Date(dateString).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
 export default async function DashboardPage() {
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
@@ -51,32 +59,50 @@ export default async function DashboardPage() {
           <>
             <DashboardStats listings={listings ?? []} />
 
-            <h2 className="text-xl font-semibold mb-4">My Active Listings</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold">My Active Listings</h2>
+              <Link href="/my-listings" className="text-blue-600 text-sm font-medium">
+                View all →
+              </Link>
+            </div>
             {active.length === 0 ? (
               <p className="text-gray-500 mb-10">No active listings yet.</p>
             ) : (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-10">
+              <div className="flex flex-col gap-4 mb-10">
                 {active.map((listing) => (
-                  <div key={listing.id} className="border rounded-xl p-5 bg-white shadow-sm">
-                    <div className="h-40 rounded-lg bg-gray-100 mb-4 overflow-hidden">
+                  <div
+                    key={listing.id}
+                    className="border rounded-xl p-4 bg-white shadow-sm flex items-center gap-4"
+                  >
+                    <div className="w-20 h-20 rounded-lg bg-gray-100 overflow-hidden shrink-0">
                       {listing.image_url && (
                         <Image
                           src={listing.image_url}
                           alt={listing.title}
-                          width={300}
-                          height={160}
+                          width={80}
+                          height={80}
                           className="w-full h-full object-cover"
                         />
                       )}
                     </div>
-                    <h3 className="font-semibold">{listing.title}</h3>
-                    <p className="text-blue-600 font-bold">
-                      ₦{Number(listing.price).toLocaleString()}
-                    </p>
-                    <div className="flex gap-2 mt-4">
+                    <div className="grow">
+                      <h3 className="font-semibold">{listing.title}</h3>
+                      <p className="text-blue-600 font-bold">
+                        ₦{Number(listing.price).toLocaleString()}
+                      </p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="text-sm text-gray-500">
+                          Posted on {formatDate(listing.created_at)}
+                        </span>
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">
+                          Active
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2 shrink-0">
                       <Link
                         href={`/listings/${listing.id}/edit`}
-                        className="px-3 py-1.5 border rounded-lg text-sm"
+                        className="px-4 py-2 border rounded-lg text-sm font-medium"
                       >
                         Edit
                       </Link>
@@ -87,31 +113,46 @@ export default async function DashboardPage() {
               </div>
             )}
 
-            <h2 className="text-xl font-semibold mb-4">Sold Items</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold">Sold Items</h2>
+              <Link href="/my-listings" className="text-blue-600 text-sm font-medium">
+                View all →
+              </Link>
+            </div>
             {sold.length === 0 ? (
               <p className="text-gray-500">No sold items yet.</p>
             ) : (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="flex flex-col gap-4">
                 {sold.map((listing) => (
                   <div
                     key={listing.id}
-                    className="border rounded-xl p-5 bg-white shadow-sm opacity-60"
+                    className="border rounded-xl p-4 bg-white shadow-sm flex items-center gap-4"
                   >
-                    <div className="h-40 rounded-lg bg-gray-100 mb-4 overflow-hidden grayscale">
+                    <div className="w-20 h-20 rounded-lg bg-gray-100 overflow-hidden shrink-0 grayscale">
                       {listing.image_url && (
                         <Image
                           src={listing.image_url}
                           alt={listing.title}
-                          width={300}
-                          height={160}
+                          width={80}
+                          height={80}
                           className="w-full h-full object-cover"
                         />
                       )}
                     </div>
-                    <h3 className="font-semibold">{listing.title}</h3>
-                    <p className="text-gray-500 font-bold">
-                      ₦{Number(listing.price).toLocaleString()}
-                    </p>
+                    <div className="grow">
+                      <h3 className="font-semibold text-gray-500">{listing.title}</h3>
+                      <p className="text-gray-500 font-bold line-through">
+                        ₦{Number(listing.price).toLocaleString()}
+                      </p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="text-sm text-gray-500">
+                          Sold on {formatDate(listing.created_at)}
+                        </span>
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700 flex items-center gap-1">
+                          ✓ Sold
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
