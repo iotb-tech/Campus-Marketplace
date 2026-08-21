@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@/app/lib/supabase/client";
+import { uploadImageToCloudinary } from "@/app/lib/cloudinary";
 
 import {
   listingSchema,
@@ -24,6 +25,8 @@ const categories = [
 
 export default function NewListingPage() {
   const [success, setSuccess] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -37,42 +40,52 @@ export default function NewListingPage() {
       price: undefined,
       category: "other",
       image_url: "",
+      image_file: "",
     },
   });
 
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      uploadImageToCloudinary(file).then(setImageUrl);
+    }
+  };
+
   async function onSubmit(data: ListingFormData) {
-  setSuccess(false);
+    setSuccess(false);
 
-  const supabase = createClient();
+    const supabase = createClient();
 
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
 
-  if (userError || !user) {
-    alert("You must be signed in to create a listing.");
-    return;
+    if (userError || !user) {
+      alert("You must be signed in to create a listing.");
+      return;
+    }
+
+    const image_url = imageUrl || data.image_url || null;
+
+    const { error } = await supabase.from("listings").insert({
+      user_id: user.id,
+      title: data.title,
+      description: data.description,
+      price: data.price,
+      category: data.category,
+      image_url: image_url,
+      status: "available",
+    });
+
+    if (error) {
+      console.error("LISTING ERROR:", error);
+      alert(error.message);
+      return;
+    }
+
+    setSuccess(true);
   }
-
-  const { error } = await supabase.from("listings").insert({
-    user_id: user.id,
-    title: data.title,
-    description: data.description,
-    price: data.price,
-    category: data.category,
-    image_url: data.image_url || null,
-    status: "available",
-  });
-
-  if (error) {
-    console.error("LISTING ERROR:", error);
-    alert(error.message);
-    return;
-  }
-
-  setSuccess(true);
-}
 
   return (
     <> 
@@ -196,29 +209,47 @@ export default function NewListingPage() {
           )}
         </div>
 
-        {/* Image URL */}
+        {/* Image */}
         <div>
           <label
-            htmlFor="image_url"
+            htmlFor="image_file"
             className="block font-medium mb-2"
           >
-            Image URL
-            <span className="text-gray-500 font-normal">
-              {" "}(optional for now)
-            </span>
+            Image
           </label>
 
           <input
-            id="image_url"
-            type="url"
-            placeholder="https://example.com/image.jpg"
-            {...register("image_url")}
-            className="w-full border rounded-lg p-3"
+            type="file"
+            id="image_file"
+            accept="image/*"
+            {...register("image_file", { valueAsNumber: false })}
+            onChange={onFileChange}
+            className="w-full border rounded-lg p-3 hidden"
+            ref={fileRef}
           />
 
-          {errors.image_url && (
+          {imageUrl && (
+            <div className="mt-2">
+              <img
+                src={imageUrl}
+                alt="Preview"
+                className="w-full h-40 object-cover rounded-lg"
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  fileRef.current?.click();
+                }}
+                className="mt-2 text-blue-600 underline"
+              >
+                Change image
+              </button>
+            </div>
+          )}
+
+          {errors.image_file && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.image_url.message}
+              {errors.image_file.message}
             </p>
           )}
         </div>

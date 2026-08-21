@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { createClient } from "@/app/lib/supabase/client";
+import { uploadImageToCloudinary } from "@/app/lib/cloudinary";
 
 import {
   listingSchema,
@@ -33,6 +33,8 @@ export default function EditListingPage() {
 
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   const supabase = createClient();
 
@@ -43,7 +45,79 @@ export default function EditListingPage() {
     formState: { errors, isSubmitting },
   } = useForm<ListingFormData>({
     resolver: zodResolver(listingSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      price: 0,
+      category: "other",
+      image_url: "",
+      image_file: "",
+    },
   });
+
+  useEffect(() => {
+    async function loadListing() {
+      setLoading(true);
+      setErrorMessage(null);
+
+      // Get current user
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        router.push("/signin");
+        return;
+      }
+
+      // Get listing
+      const { data: listing, error } = await supabase
+        .from("listings")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error || !listing) {
+        setErrorMessage("Listing not found.");
+        setLoading(false);
+        return;
+      }
+
+      // Make sure this user owns the listing
+      if (listing.user_id !== user.id) {
+        setErrorMessage(
+          "You are not allowed to edit this listing."
+        );
+        setLoading(false);
+        return;
+      }
+
+      // Fill the form with existing listing data
+      reset({
+        title: listing.title,
+        description: listing.description,
+        price: Number(listing.price),
+        category: listing.category,
+        image_url: listing.image_url || "",
+      });
+
+      // If there's an existing image URL, load it
+      if (listing.image_url) {
+        setImageUrl(listing.image_url);
+      }
+
+      setLoading(false);
+    }
+
+    loadListing();
+  }, [id, reset, router]);
+
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      uploadImageToCloudinary(file).then(setImageUrl);
+    }
+  };
 
   useEffect(() => {
     async function loadListing() {
@@ -116,7 +190,7 @@ export default function EditListingPage() {
         description: data.description,
         price: data.price,
         category: data.category,
-        image_url: data.image_url || null,
+        image_url: imageUrl || data.image_url || null,
       })
       .eq("id", id)
       .eq("user_id", user.id);
@@ -292,30 +366,46 @@ export default function EditListingPage() {
             )}
           </div>
 
-          {/* Image URL */}
+          {/* Image */}
           <div>
             <label
-              htmlFor="image_url"
+              htmlFor="image_file"
               className="block font-medium mb-2"
             >
-              Image URL
-              <span className="text-gray-500 font-normal">
-                {" "}
-                (optional for now)
-              </span>
+              Image
             </label>
 
             <input
-              id="image_url"
-              type="url"
-              placeholder="https://example.com/image.jpg"
-              {...register("image_url")}
-              className="w-full border rounded-lg p-3"
+              type="file"
+              id="image_file"
+              accept="image/*"
+              onChange={onFileChange}
+              className="w-full border rounded-lg p-3 hidden"
+              ref={fileRef}
             />
 
-            {errors.image_url && (
+            {imageUrl && (
+              <div className="mt-2">
+                <img
+                  src={imageUrl}
+                  alt="Preview"
+                  className="w-full h-40 object-cover rounded-lg"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    fileRef.current?.click();
+                  }}
+                  className="mt-2 text-blue-600 underline"
+                >
+                  Change image
+                </button>
+              </div>
+            )}
+
+            {errors.image_file && (
               <p className="text-red-500 text-sm mt-1">
-                {errors.image_url.message}
+                {errors.image_file.message}
               </p>
             )}
           </div>
