@@ -40,16 +40,31 @@ export default async function CategoriesPage() {
             <Link
               key={key}
               href={`/listings?category=${key}`}
-              className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
+              className="group flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md sm:p-6"
             >
-              <span className="material-symbols-outlined text-blue-600 text-3xl">
-                {meta.icon}
-              </span>
-              <h2 className="text-xl font-semibold mt-3">{meta.label}</h2>
-              <p className="text-gray-500 mt-1">{meta.description}</p>
-              <p className="text-sm text-blue-600 font-medium mt-4">
-                {counts[key] || 0} item{counts[key] !== 1 ? "s" : ""}
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-100">
+                  <span className="material-symbols-outlined text-[24px]">
+                    {meta.icon}
+                  </span>
+                </div>
+                <h2 className="text-base font-semibold text-gray-900 sm:text-lg">
+                  {meta.label}
+                </h2>
+              </div>
+
+              <p className="mt-3 line-clamp-2 grow text-sm leading-5 text-gray-500">
+                {meta.description}
               </p>
+
+              <div className="mt-4 flex items-center justify-between border-t border-gray-100 pt-3.5">
+                <span className="rounded-full bg-gray-50 px-2.5 py-1 text-xs font-semibold text-gray-600">
+                  {counts[key] || 0} {counts[key] === 1 ? "item" : "items"}
+                </span>
+                <span className="material-symbols-outlined text-[18px] text-gray-300 transition-colors group-hover:text-blue-500">
+                  arrow_forward
+                </span>
+              </div>
             </Link>
           ))}
         </div>

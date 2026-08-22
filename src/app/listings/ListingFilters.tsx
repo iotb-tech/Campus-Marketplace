@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import ListingCard from "../components/ListingCard";
+import EmptyState from "../components/EmptyState";
 
 type Listing = {
   id: string;
@@ -12,6 +12,8 @@ type Listing = {
   category: string;
   image_url: string | null;
   status: string;
+  created_at?: string | null;
+  profiles?: { name?: string } | null;
 };
 
 type ListingFiltersProps = {
@@ -131,51 +133,15 @@ export default function ListingPage({ listings }: ListingFiltersProps) {
         </div>
         {/* Listings Grid */}
         {filteredListings.length === 0 ? (
-          <div className="py-20 text-center">
-            <h2 className="text-xl font-semibold text-gray-800">
-              No listings found
-            </h2>
-            <p className="text-gray-500 mt-2">Try adjusting your filters.</p>
-          </div>
+          <EmptyState
+            icon="search_off"
+            title="No listings found"
+            description="Try adjusting your search or clearing some filters."
+          />
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filteredListings.map((listing) => (
-              <Link
-                key={listing.id}
-                href={`/listings/${listing.id}`}
-                className="border rounded-xl p-5 bg-white shadow-sm"
-              >
-                <div className="relative h-48 rounded-lg bg-gray-100 mb-4 flex items-center justify-center overflow-hidden">
-                  {listing.image_url ? (
-                    <Image
-                      src={listing.image_url}
-                      alt={listing.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-gray-400">No image</span>
-                  )}
-                </div>
-                <p className="text-sm text-blue-600 font-medium capitalize">
-                  {listing.category.replace("_", " ")}
-                </p>
-                <h2 className="text-xl font-semibold mt-1">{listing.title}</h2>
-                <p className="text-gray-600 mt-2 line-clamp-2">
-                  {listing.description}
-                </p>
-                <div className="flex items-center justify-between mt-5">
-                  <p className="text-lg font-bold">
-                    ₦{Number(listing.price).toLocaleString()}
-                  </p>
-                  <span
-                    className={`text-sm px-3 py-1 rounded-full ${listing.status === "available" ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`}
-                  >
-                    {listing.status}
-                  </span>
-                </div>
-              </Link>
+              <ListingCard key={listing.id} listing={listing} />
             ))}
           </div>
         )}

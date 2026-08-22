@@ -2,17 +2,29 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowUp, ArrowRight } from "lucide-react";
+import { ArrowUp } from "lucide-react";
+
+const footerSections = [
+  {
+    heading: "Marketplace",
+    links: [
+      { text: "Browse Items", href: "/browse" },
+      { text: "Categories", href: "/categories" },
+      { text: "Post a Listing", href: "/listings/new" },
+    ],
+  },
+  {
+    heading: "Account",
+    links: [
+      { text: "My Listings", href: "/my-listings" },
+      { text: "Profile", href: "/profile" },
+      { text: "Dashboard", href: "/dashboard" },
+    ],
+  },
+];
 
 const Footer: React.FC = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
-
-  const footerLinks = [
-    { text: "Terms of Service", href: "/terms" },
-    { text: "Privacy Policy", href: "/privacy" },
-    { text: "Safety Guidelines", href: "/safety" },
-    { text: "Support", href: "/support" },
-  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,10 +51,10 @@ const Footer: React.FC = () => {
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
 
           {/* Main Footer */}
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
 
             {/* Brand */}
-            <div className="lg:col-span-1">
+            <div>
               <Link
                 href="/"
                 className="inline-block text-xl font-bold text-blue-600 transition-colors hover:text-blue-700"
@@ -53,127 +65,35 @@ const Footer: React.FC = () => {
               <p className="mt-3 max-w-xs text-sm leading-6 text-gray-600">
                 Buy, sell and swap with fellow students around your campus.
               </p>
-
-              <p className="mt-4 text-sm font-medium text-gray-500">
-                For students, by students.
-              </p>
             </div>
 
-            {/* Marketplace */}
-            <div>
-              <h3 className="text-sm font-semibold text-gray-900">
-                Marketplace
-              </h3>
+            {/* Link sections */}
+            {footerSections.map((section) => (
+              <div key={section.heading}>
+                <h3 className="text-sm font-semibold text-gray-900">
+                  {section.heading}
+                </h3>
 
-              <ul className="mt-4 space-y-3">
-                <li>
-                  <Link
-                    href="/marketplace"
-                    className="text-sm text-gray-600 transition-colors hover:text-blue-600"
-                  >
-                    Browse Products
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    href="/sell"
-                    className="text-sm text-gray-600 transition-colors hover:text-blue-600"
-                  >
-                    Sell an Item
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    href="/categories"
-                    className="text-sm text-gray-600 transition-colors hover:text-blue-600"
-                  >
-                    Categories
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    href="/my-listings"
-                    className="text-sm text-gray-600 transition-colors hover:text-blue-600"
-                  >
-                    My Listings
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Community */}
-            <div>
-              <h3 className="text-sm font-semibold text-gray-900">
-                Community
-              </h3>
-
-              <ul className="mt-4 space-y-3">
-                <li>
-                  <Link
-                    href="/how-it-works"
-                    className="text-sm text-gray-600 transition-colors hover:text-blue-600"
-                  >
-                    How It Works
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    href="/about"
-                    className="text-sm text-gray-600 transition-colors hover:text-blue-600"
-                  >
-                    About CampusMarket
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    href="/safety"
-                    className="text-sm text-gray-600 transition-colors hover:text-blue-600"
-                  >
-                    Safety Guidelines
-                  </Link>
-                </li>
-
-                <li>
-                  <Link
-                    href="/support"
-                    className="text-sm text-gray-600 transition-colors hover:text-blue-600"
-                  >
-                    Support
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Legal */}
-            <div>
-              <h3 className="text-sm font-semibold text-gray-900">
-                Legal
-              </h3>
-
-              <ul className="mt-4 space-y-3">
-                {footerLinks.map((link) => (
-                  <li key={link.text}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-gray-600 transition-colors hover:text-blue-600"
-                    >
-                      {link.text}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                <ul className="mt-4 space-y-3">
+                  {section.links.map((link) => (
+                    <li key={link.text}>
+                      <Link
+                        href={link.href}
+                        className="text-sm text-gray-600 transition-colors hover:text-blue-600"
+                      >
+                        {link.text}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
 
           {/* Bottom Section */}
           <div className="mt-10 flex flex-col gap-4 border-t border-blue-100 pt-6 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-gray-500 sm:text-sm">
-              © 2026 CampusMarket. All rights reserved.
+              © {new Date().getFullYear()} CampusMarket. All rights reserved.
             </p>
 
             <p className="text-xs text-gray-400 sm:text-sm">

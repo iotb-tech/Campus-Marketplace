@@ -1,15 +1,16 @@
 import { createClient } from "@/app/lib/supabase/server";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
+import ListingCard from "../components/ListingCard";
+import EmptyState from "../components/EmptyState";
 import Link from "next/link";
-import Image from "next/image";
 
 export default async function BrowsePage() {
   const supabase = await createClient();
 
   const { data: listings, error } = await supabase
     .from("listings")
-    .select("*")
+    .select("*, profiles(name)")
     .eq("status", "available")
     .order("created_at", { ascending: false });
 
@@ -31,46 +32,23 @@ export default async function BrowsePage() {
         ) : listings && listings.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {listings.map((listing) => (
-              <Link
-                key={listing.id}
-                href={`/listings/${listing.id}`}
-                className="border rounded-xl p-5 bg-white shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div className="relative h-48 rounded-lg bg-gray-100 mb-4 flex items-center justify-center overflow-hidden">
-                  {listing.image_url ? (
-                    <Image
-                      src={listing.image_url}
-                      alt={listing.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-gray-400">No image</span>
-                  )}
-                </div>
-                <p className="text-sm text-blue-600 font-medium capitalize">
-                  {listing.category.replace("_", " ")}
-                </p>
-                <h2 className="text-xl font-semibold mt-1">{listing.title}</h2>
-                <p className="text-gray-600 mt-2 line-clamp-2">
-                  {listing.description}
-                </p>
-                <p className="text-lg font-bold mt-4">
-                  ₦{Number(listing.price).toLocaleString()}
-                </p>
-              </Link>
+              <ListingCard key={listing.id} listing={listing} />
             ))}
           </div>
         ) : (
-          <div className="py-20 text-center">
-            <h2 className="text-xl font-semibold text-gray-800">
-              No items available
-            </h2>
-            <p className="text-gray-500 mt-2">
-              Check back later or post your own listing!
-            </p>
-          </div>
+          <EmptyState
+            icon="storefront"
+            title="No items available yet"
+            description="Check back later, or be the first to post something for your campus."
+            action={
+              <Link
+                href="/listings/new"
+                className="inline-flex items-center justify-center rounded-lg bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
+              >
+                Post an Item
+              </Link>
+            }
+          />
         )}
       </main>
       <Footer />

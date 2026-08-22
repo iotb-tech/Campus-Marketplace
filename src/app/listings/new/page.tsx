@@ -5,6 +5,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@/app/lib/supabase/client";
 import ImageUploader from "@/app/components/ImageUploader";
+import { Input, Textarea, Select } from "@/app/components/FormFields";
+import InlineAlert from "@/app/components/InlineAlert";
+import Button from "@/app/components/button";
 
 import {
   listingSchema,
@@ -25,6 +28,7 @@ const categories = [
 
 export default function NewListingPage() {
   const [success, setSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const {
@@ -44,6 +48,7 @@ export default function NewListingPage() {
 
   async function onSubmit(data: ListingFormData) {
     setSuccess(false);
+    setErrorMessage(null);
 
     const supabase = createClient();
 
@@ -53,7 +58,7 @@ export default function NewListingPage() {
     } = await supabase.auth.getUser();
 
     if (userError || !user) {
-      alert("You must be signed in to create a listing.");
+      setErrorMessage("You must be signed in to create a listing.");
       return;
     }
 
@@ -71,7 +76,7 @@ export default function NewListingPage() {
 
     if (error) {
       console.error("LISTING ERROR:", error);
-      alert(error.message);
+      setErrorMessage(error.message);
       return;
     }
 
@@ -79,149 +84,88 @@ export default function NewListingPage() {
   }
 
   return (
-    <> 
-    <Nav />
-    <main className="max-w-2xl mx-auto p-6">
-     
-      <h1 className="text-3xl font-bold mb-2">
-        Create Listing
-      </h1>
+    <>
+      <Nav />
+      <main className="max-w-2xl mx-auto p-6">
 
-      <p className="text-gray-600 mb-8">
-        Sell or swap an item with your fellow students.
-      </p>
+        <h1 className="text-3xl font-bold mb-2">
+          Create Listing
+        </h1>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <p className="text-sm text-neutral-600 mb-8">
+          Sell or swap an item with your fellow students.
+        </p>
 
-        {/* Title */}
-        <div>
-          <label
-            htmlFor="title"
-            className="block font-medium mb-2"
-          >
-            Title
-          </label>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
-          <input
+          <Input
             id="title"
+            label="Title"
             type="text"
             placeholder="e.g. Scientific Calculator"
+            error={errors.title?.message}
             {...register("title")}
-            className="w-full border rounded-lg p-3"
           />
 
-          {errors.title && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.title.message}
-            </p>
-          )}
-        </div>
-
-        {/* Description */}
-        <div>
-          <label
-            htmlFor="description"
-            className="block font-medium mb-2"
-          >
-            Description
-          </label>
-
-          <textarea
+          <Textarea
             id="description"
+            label="Description"
             rows={5}
             placeholder="Describe the item..."
+            error={errors.description?.message}
             {...register("description")}
-            className="w-full border rounded-lg p-3"
           />
 
-          {errors.description && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.description.message}
-            </p>
-          )}
-        </div>
-
-        {/* Price */}
-        <div>
-          <label
-            htmlFor="price"
-            className="block font-medium mb-2"
-          >
-            Price (₦)
-          </label>
-
-          <input
+          <Input
             id="price"
+            label="Price (₦)"
             type="number"
             min="0"
             step="0.01"
             placeholder="15000"
-            {...register("price", {
-              valueAsNumber: true,
-            })}
-            className="w-full border rounded-lg p-3"
+            error={errors.price?.message}
+            {...register("price", { valueAsNumber: true })}
           />
 
-          {errors.price && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.price.message}
-            </p>
-          )}
-        </div>
-
-        {/* Category */}
-        <div>
-          <label
-            htmlFor="category"
-            className="block font-medium mb-2"
-          >
-            Category
-          </label>
-
-          <select
+          <Select
             id="category"
+            label="Category"
+            error={errors.category?.message}
             {...register("category")}
-            className="w-full border rounded-lg p-3"
           >
             {categories.map((category) => (
-              <option
-                key={category.value}
-                value={category.value}
-              >
+              <option key={category.value} value={category.value}>
                 {category.label}
               </option>
             ))}
-          </select>
+          </Select>
 
-          {errors.category && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.category.message}
-            </p>
+          <ImageUploader value={imageUrl} onChange={setImageUrl} label="Product Photo" />
+
+          {errorMessage && (
+            <InlineAlert variant="error" title="Couldn't create listing" onDismiss={() => setErrorMessage(null)}>
+              {errorMessage}
+            </InlineAlert>
           )}
-        </div>
 
-        {/* Image */}
-        <ImageUploader value={imageUrl} onChange={setImageUrl} label="Product Photo" />
+          {success && (
+            <InlineAlert variant="success" title="Listing created!">
+              Your listing is now live on the marketplace.
+            </InlineAlert>
+          )}
 
-        {/* Success */}
-        {success && (
-          <p className="text-green-600">
-            Listing form validated successfully!
-          </p>
-        )}
+          <Button
+            type="submit"
+            loading={isSubmitting}
+            className="w-full py-3"
+            size="lg"
+          >
+            {isSubmitting ? "Creating..." : "Create Listing"}
+          </Button>
+        </form>
 
-        {/* Submit */}
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium disabled:opacity-50"
-        >
-          {isSubmitting ? "Creating..." : "Create Listing"}
-        </button>
-      </form>
-      
-    </main>
-    <Footer />
+      </main>
+      <Footer />
     </>
   );
 }

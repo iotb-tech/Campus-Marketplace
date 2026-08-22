@@ -1,5 +1,39 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Capstone Design Guide — design tokens (Tailwind v4 @theme)
+   Equivalent of the guide's tailwind.config.ts theme.extend
+   ============================================================ */
+@theme {
+  /* Primary (blue) */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-300: #93c5fd;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+
+  /* Neutral (zinc) */
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f4f4f5;
+  --color-neutral-200: #e4e4e7;
+  --color-neutral-400: #a1a1aa;
+  --color-neutral-600: #52525b;
+  --color-neutral-800: #27272a;
+  --color-neutral-900: #18181b;
+
+  /* Status */
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-error: #dc2626;
+
+  /* Typography */
+  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
+
+  /* Border radius */
+  --radius-lg: 0.75rem;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -10,9 +44,8 @@ body {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
-/* Fallback themes for custom utility classes used in the design */
+/* Legacy utility fallbacks used by older components */
 @layer utilities {
-  /* Backgrounds */
   .bg-primary-container { background-color: #2170e4; }
   .bg-surface-container-lowest { background-color: #ffffff; }
   .bg-surface-container-low { background-color: #f6f2f7; }
@@ -20,30 +53,23 @@ body {
   .bg-surface-container-high { background-color: #e0dce4; }
   .bg-background { background-color: #fbf8fc; }
 
-  /* Text colors */
-  .text-primary { color: #0058be; }
+  .text-primary { color: var(--color-primary-600); }
   .text-on-surface { color: #1b1b1e; }
   .text-on-surface-variant { color: #424754; }
   .text-on-primary-container { color: #ffffff; }
   .text-outline { color: #727785; }
 
-  /* Border colors */
   .border-outline-variant { border-color: #c2c6d6; }
 
-  /* Typography tokens - Label */
   .font-label-md { font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; }
-
-  /* Typography tokens - Body */
   .font-body-base { font-size: 1rem; line-height: 1.5rem; }
   .font-body-sm { font-size: 0.875rem; line-height: 1.25rem; }
   .text-body-base { font-size: 1rem; line-height: 1.5rem; }
   .text-body-sm { font-size: 0.875rem; line-height: 1.25rem; }
 
-  /* Typography tokens - Section heading */
   .font-section-heading { font-size: 1.125rem; line-height: 1.5rem; font-weight: 600; }
   .text-section-heading { font-size: 1.125rem; line-height: 1.5rem; }
 
-  /* Layout tokens */
   .max-w-container-max { max-width: 72rem; }
   .px-margin-x { padding-left: 1rem; padding-right: 1rem; }
   .px-gutter { padding-left: 2rem; padding-right: 2rem; }
