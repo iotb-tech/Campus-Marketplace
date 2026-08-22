@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { createClient } from "@/app/lib/supabase/client";
+import ImageUploader from "@/app/components/ImageUploader";
 
 import {
   listingSchema,
@@ -33,6 +33,7 @@ export default function EditListingPage() {
 
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const supabase = createClient();
 
@@ -43,6 +44,13 @@ export default function EditListingPage() {
     formState: { errors, isSubmitting },
   } = useForm<ListingFormData>({
     resolver: zodResolver(listingSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      price: 0,
+      category: "other",
+      image_url: "",
+    },
   });
 
   useEffect(() => {
@@ -91,6 +99,9 @@ export default function EditListingPage() {
         image_url: listing.image_url || "",
       });
 
+      // If there's an existing image URL, load it
+      setImageUrl(listing.image_url || null);
+
       setLoading(false);
     }
 
@@ -116,7 +127,7 @@ export default function EditListingPage() {
         description: data.description,
         price: data.price,
         category: data.category,
-        image_url: data.image_url || null,
+        image_url: imageUrl || data.image_url || null,
       })
       .eq("id", id)
       .eq("user_id", user.id);
@@ -292,33 +303,8 @@ export default function EditListingPage() {
             )}
           </div>
 
-          {/* Image URL */}
-          <div>
-            <label
-              htmlFor="image_url"
-              className="block font-medium mb-2"
-            >
-              Image URL
-              <span className="text-gray-500 font-normal">
-                {" "}
-                (optional for now)
-              </span>
-            </label>
-
-            <input
-              id="image_url"
-              type="url"
-              placeholder="https://example.com/image.jpg"
-              {...register("image_url")}
-              className="w-full border rounded-lg p-3"
-            />
-
-            {errors.image_url && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.image_url.message}
-              </p>
-            )}
-          </div>
+          {/* Image */}
+          <ImageUploader value={imageUrl} onChange={setImageUrl} label="Product Photo" />
 
           {/* Buttons */}
           <div className="flex gap-4">

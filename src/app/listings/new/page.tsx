@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@/app/lib/supabase/client";
+import ImageUploader from "@/app/components/ImageUploader";
 
 import {
   listingSchema,
@@ -24,6 +25,7 @@ const categories = [
 
 export default function NewListingPage() {
   const [success, setSuccess] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const {
     register,
@@ -41,38 +43,40 @@ export default function NewListingPage() {
   });
 
   async function onSubmit(data: ListingFormData) {
-  setSuccess(false);
+    setSuccess(false);
 
-  const supabase = createClient();
+    const supabase = createClient();
 
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
 
-  if (userError || !user) {
-    alert("You must be signed in to create a listing.");
-    return;
+    if (userError || !user) {
+      alert("You must be signed in to create a listing.");
+      return;
+    }
+
+    const image_url = imageUrl || data.image_url || null;
+
+    const { error } = await supabase.from("listings").insert({
+      user_id: user.id,
+      title: data.title,
+      description: data.description,
+      price: data.price,
+      category: data.category,
+      image_url: image_url,
+      status: "available",
+    });
+
+    if (error) {
+      console.error("LISTING ERROR:", error);
+      alert(error.message);
+      return;
+    }
+
+    setSuccess(true);
   }
-
-  const { error } = await supabase.from("listings").insert({
-    user_id: user.id,
-    title: data.title,
-    description: data.description,
-    price: data.price,
-    category: data.category,
-    image_url: data.image_url || null,
-    status: "available",
-  });
-
-  if (error) {
-    console.error("LISTING ERROR:", error);
-    alert(error.message);
-    return;
-  }
-
-  setSuccess(true);
-}
 
   return (
     <> 
@@ -196,32 +200,8 @@ export default function NewListingPage() {
           )}
         </div>
 
-        {/* Image URL */}
-        <div>
-          <label
-            htmlFor="image_url"
-            className="block font-medium mb-2"
-          >
-            Image URL
-            <span className="text-gray-500 font-normal">
-              {" "}(optional for now)
-            </span>
-          </label>
-
-          <input
-            id="image_url"
-            type="url"
-            placeholder="https://example.com/image.jpg"
-            {...register("image_url")}
-            className="w-full border rounded-lg p-3"
-          />
-
-          {errors.image_url && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.image_url.message}
-            </p>
-          )}
-        </div>
+        {/* Image */}
+        <ImageUploader value={imageUrl} onChange={setImageUrl} label="Product Photo" />
 
         {/* Success */}
         {success && (
