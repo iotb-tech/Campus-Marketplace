@@ -31,15 +31,16 @@ export default async function FreshProducts() {
         <Link
           key={listing.id}
           href={`/listings/${listing.id}`}
-          className="flex flex-col border-1 rounded-lg border-gray-300 hover:shadow-md transition-shadow"
+          className="flex flex-col border rounded-lg border-gray-300 hover:shadow-md transition-shadow"
         >
           <div className="relative h-48">
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
             {listing.image_url ? (
               <Image
                 src={listing.image_url}
                 alt={listing.title}
                 fill
+                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover rounded-t-md"
               />
             ) : (
