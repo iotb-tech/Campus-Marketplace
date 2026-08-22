@@ -9,7 +9,7 @@ export default async function ListingsPage() {
 
   const { data: listings, error } = await supabase
     .from("listings")
-    .select("*")
+    .select("*, profiles(name)")
     .order("created_at", { ascending: false });
 
   if (error) {

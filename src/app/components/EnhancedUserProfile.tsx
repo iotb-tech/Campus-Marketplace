@@ -266,7 +266,7 @@ const EnhancedUserProfile: React.FC<{ initialProfile: UserProfileData }> = ({ in
                   Remove
                 </button>
               </div>
-              <Button variant="outline" onClick={() => {}} className="w-full sm:w-auto">
+              <Button variant="ghost" onClick={() => {}} className="w-full sm:w-auto border border-neutral-200">
                 <span className="material-symbols-outlined text-[18px] mr-1">add</span>
                 Add Payment Method
               </Button>

@@ -6,6 +6,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@/app/lib/supabase/client";
 import ImageUploader from "@/app/components/ImageUploader";
+import { Input, Textarea, Select } from "@/app/components/FormFields";
+import InlineAlert from "@/app/components/InlineAlert";
+import Button from "@/app/components/button";
 
 import {
   listingSchema,
@@ -162,13 +165,13 @@ export default function EditListingPage() {
         <Nav />
 
         <main className="max-w-2xl mx-auto p-6">
-          <p className="text-red-500">
+          <InlineAlert variant="error" title="Something went wrong">
             {errorMessage}
-          </p>
+          </InlineAlert>
 
           <button
             onClick={() => router.push(`/listings/${id}`)}
-            className="mt-4 text-blue-600 hover:underline"
+            className="mt-4 text-primary-600 hover:underline"
           >
             ← Back to listing
           </button>
@@ -188,141 +191,72 @@ export default function EditListingPage() {
           Edit Listing
         </h1>
 
-        <p className="text-gray-600 mb-8">
+        <p className="text-sm text-neutral-600 mb-8">
           Update the information about your listing.
         </p>
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="space-y-6"
+          className="space-y-5"
         >
-          {/* Title */}
-          <div>
-            <label
-              htmlFor="title"
-              className="block font-medium mb-2"
-            >
-              Title
-            </label>
+          <Input
+            id="title"
+            label="Title"
+            type="text"
+            placeholder="e.g. Scientific Calculator"
+            error={errors.title?.message}
+            {...register("title")}
+          />
 
-            <input
-              id="title"
-              type="text"
-              placeholder="e.g. Scientific Calculator"
-              {...register("title")}
-              className="w-full border rounded-lg p-3"
-            />
+          <Textarea
+            id="description"
+            label="Description"
+            rows={5}
+            placeholder="Describe the item..."
+            error={errors.description?.message}
+            {...register("description")}
+          />
 
-            {errors.title && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.title.message}
-              </p>
-            )}
-          </div>
+          <Input
+            id="price"
+            label="Price (₦)"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="15000"
+            error={errors.price?.message}
+            {...register("price", { valueAsNumber: true })}
+          />
 
-          {/* Description */}
-          <div>
-            <label
-              htmlFor="description"
-              className="block font-medium mb-2"
-            >
-              Description
-            </label>
-
-            <textarea
-              id="description"
-              rows={5}
-              placeholder="Describe the item..."
-              {...register("description")}
-              className="w-full border rounded-lg p-3"
-            />
-
-            {errors.description && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.description.message}
-              </p>
-            )}
-          </div>
-
-          {/* Price */}
-          <div>
-            <label
-              htmlFor="price"
-              className="block font-medium mb-2"
-            >
-              Price (₦)
-            </label>
-
-            <input
-              id="price"
-              type="number"
-              min="0"
-              step="0.01"
-              placeholder="15000"
-              {...register("price", {
-                valueAsNumber: true,
-              })}
-              className="w-full border rounded-lg p-3"
-            />
-
-            {errors.price && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.price.message}
-              </p>
-            )}
-          </div>
-
-          {/* Category */}
-          <div>
-            <label
-              htmlFor="category"
-              className="block font-medium mb-2"
-            >
-              Category
-            </label>
-
-            <select
-              id="category"
-              {...register("category")}
-              className="w-full border rounded-lg p-3"
-            >
-              {categories.map((category) => (
-                <option
-                  key={category.value}
-                  value={category.value}
-                >
-                  {category.label}
-                </option>
-              ))}
-            </select>
-
-            {errors.category && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.category.message}
-              </p>
-            )}
-          </div>
+          <Select
+            id="category"
+            label="Category"
+            error={errors.category?.message}
+            {...register("category")}
+          >
+            {categories.map((category) => (
+              <option key={category.value} value={category.value}>
+                {category.label}
+              </option>
+            ))}
+          </Select>
 
           {/* Image */}
           <ImageUploader value={imageUrl} onChange={setImageUrl} label="Product Photo" />
 
-          {/* Buttons */}
-          <div className="flex gap-4">
-            <button
+          <div className="flex gap-4 pt-2">
+            <Button
               type="button"
+              variant="ghost"
               onClick={() => router.push(`/listings/${id}`)}
-              className="flex-1 border border-gray-300 py-3 rounded-lg font-medium"
+              className="flex-1 border border-neutral-200 py-3"
             >
               Cancel
-            </button>
+            </Button>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="flex-1 bg-blue-600 text-white py-3 rounded-lg font-medium disabled:opacity-50"
-            >
+            <Button type="submit" loading={isSubmitting} className="flex-1 py-3">
               {isSubmitting ? "Saving..." : "Save Changes"}
-            </button>
+            </Button>
           </div>
         </form>
       </main>

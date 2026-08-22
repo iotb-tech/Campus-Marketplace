@@ -1,3 +1,4 @@
+import Link from "next/link";
 import campusmarket from "../assets/campusmarket.jpg";
 
 export default function Hero() {
@@ -11,95 +12,41 @@ export default function Hero() {
           {/* Trust Badge */}
           <div className="mb-6">
             <span className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-600">
-              <span className="mr-2">✓</span>
-              Trusted by <b className="ml-1">500+</b>&nbsp; students
+              <span className="material-symbols-outlined mr-1.5 text-[16px]">verified</span>
+              Trusted by <b className="ml-1">500+</b>&nbsp;students
             </span>
           </div>
 
           {/* Heading */}
-          <div>
-            <h1 className="max-w-xl text-4xl font-bold leading-tight tracking-tight text-zinc-950 sm:text-5xl">
-              The safest way to{" "}
-              <span className="text-blue-600">buy</span> and{" "}
-              <span className="text-emerald-600">sell</span> on campus
-            </h1>
-          </div>
+          <h1 className="max-w-xl text-4xl font-bold leading-tight tracking-tight text-zinc-950 sm:text-5xl">
+            The safest way to{" "}
+            <span className="text-blue-600">buy</span> and{" "}
+            <span className="text-emerald-600">sell</span> on campus
+          </h1>
 
           {/* Description */}
-          <p className="mt-6 max-w-xl text-base leading-7 text-slate-600 sm:text-lg">
-            Connect with verified students at your university. Buy textbooks,
-            sell furniture, and discover local deals safely and sustainably.
+          <p className="mt-5 max-w-lg text-base leading-7 text-slate-600 sm:text-lg">
+            Verified students, local deals — from textbooks to furniture.
           </p>
 
           {/* Buttons */}
           <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-            <button
-              className="rounded-lg bg-blue-600 px-8 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
+            <Link
+              href="/browse"
+              className="group inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-8 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md"
             >
               Browse Listings
-            </button>
+              <span className="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-0.5">
+                arrow_forward
+              </span>
+            </Link>
 
-            <button
-              className="rounded-lg border border-slate-300 bg-white px-8 py-3.5 text-sm font-semibold text-slate-700 transition hover:border-blue-400 hover:text-blue-600"
+            <Link
+              href="/listings/new"
+              className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-8 py-3.5 text-sm font-semibold text-slate-700 transition hover:border-blue-400 hover:text-blue-600"
             >
-              How it works
-            </button>
-          </div>
-
-          {/* Trust Features */}
-          <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
-
-            {/* Verified Students */}
-            <div className="flex items-start gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600">
-                <span className="text-lg">✓</span>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-semibold text-slate-900">
-                  Verified Students
-                </h3>
-
-                <p className="mt-1 text-xs leading-5 text-slate-500">
-                  University email verification
-                </p>
-              </div>
-            </div>
-
-            {/* Private & Secure */}
-            <div className="flex items-start gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600">
-                <span className="material-symbols-outlined text-lg">forum</span>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-semibold text-slate-900">
-                  Private & Secure
-                </h3>
-
-                <p className="mt-1 text-xs leading-5 text-slate-500">
-                  In-app messaging keeps you private
-                </p>
-              </div>
-            </div>
-
-            {/* Community Trust */}
-            <div className="flex items-start gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600">
-                <span className="text-lg">★</span>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-semibold text-slate-900">
-                  Community Trust
-                </h3>
-
-                <p className="mt-1 text-xs leading-5 text-slate-500">
-                  Report system keeps the community trusted
-                </p>
-              </div>
-            </div>
-
+              Post an Item
+            </Link>
           </div>
         </div>
 
@@ -111,6 +58,7 @@ export default function Hero() {
 
           {/* Image container */}
           <div className="relative overflow-hidden rounded-[1.5rem] bg-white shadow-xl">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={campusmarket.src}
               alt="Students buying and selling items on campus"
