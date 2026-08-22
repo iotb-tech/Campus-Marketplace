@@ -1,11 +1,3 @@
-import { v2 as cloudinary } from "cloudinary";
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_KEY,
-  api_secret: process.env.CLOUDINARY_SECRET,
-});
-
 export const uploadImageToCloudinary = async (file: File): Promise<string> => {
   const formData = new FormData();
   formData.append("file", file);
@@ -19,6 +11,15 @@ export const uploadImageToCloudinary = async (file: File): Promise<string> => {
     }
   );
 
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error?.message || "Image upload failed");
+  }
+
   const data = await response.json();
+  if (!data.secure_url) {
+    throw new Error("Image upload failed: No URL received");
+  }
+
   return data.secure_url;
 };

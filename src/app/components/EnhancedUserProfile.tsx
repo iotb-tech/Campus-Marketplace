@@ -147,27 +147,6 @@ const EnhancedUserProfile: React.FC<{ initialProfile: UserProfileData }> = ({ in
                   <p className="text-xs text-gray-500 mt-2">Current preview</p>
                 </div>
               )}
-              <div className="mt-4">
-                <label className="block text-sm font-medium text-gray-600 mb-1">
-                  Profile Picture
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={onFileChange}
-                    className="hidden"
-                    ref={fileRef}
-                  />
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => fileRef.current?.click()}
-                    className="w-auto"
-                  >
-                    <span className="material-symbols-outlined text-[14px]">photo</span>
-                    Upload
-                  </Button>
-                </label>
-              </div>
               <div className="flex items-center gap-3 pt-2">
                 <Button variant="primary" onClick={handleSave} disabled={isSaving} className="px-6">
                   {isSaving ? 'Saving...' : 'Save Changes'}
@@ -294,24 +273,33 @@ const EnhancedUserProfile: React.FC<{ initialProfile: UserProfileData }> = ({ in
       <main className="grow w-full max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {/* Profile Header */}
         <div className="bg-white border border-gray-200 rounded-xl p-5 sm:p-6 mb-6">
-          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
+          <div className="flex items-center gap-3">
             <div className="w-20 h-20 rounded-full bg-blue-100 border-2 border-blue-200 flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-[40px] text-blue-600">person</span>
             </div>
-            <div className="text-center sm:text-left flex-1">
+            <div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => fileRef.current?.click()}
+                className="w-auto"
+              >
+                <span className="material-symbols-outlined text-[14px]">photo</span>
+                Upload
+              </Button>
               <h1 className="text-xl font-bold text-gray-900">{profileData.fullName}</h1>
               <p className="text-sm text-gray-500">{profileData.email}</p>
-              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mt-2">
-                <span className="inline-flex items-center gap-1 text-xs bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full">
-                  <span className="material-symbols-outlined text-[14px]">school</span>
-                  {profileData.major}
-                </span>
-                <span className="inline-flex items-center gap-1 text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full">
-                  <span className="material-symbols-outlined text-[14px]">calendar_today</span>
-                  Class of {profileData.graduationYear}
-                </span>
-              </div>
             </div>
+          </div>
+          <div className="flex flex-col sm:flex-row items-start sm:items-start gap-4 mt-3">
+            <span className="inline-flex items-center gap-1 text-xs bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full">
+              <span className="material-symbols-outlined text-[14px]">school</span>
+              {profileData.major}
+            </span>
+            <span className="inline-flex items-center gap-1 text-xs bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full">
+              <span className="material-symbols-outlined text-[14px]">calendar_today</span>
+              Class of {profileData.graduationYear}
+            </span>
           </div>
         </div>
 
