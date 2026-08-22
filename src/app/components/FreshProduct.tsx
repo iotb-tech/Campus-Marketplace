@@ -34,7 +34,7 @@ export default async function FreshProducts() {
           className="flex flex-col border rounded-lg border-gray-300 hover:shadow-md transition-shadow"
         >
           <div className="relative h-48">
-            <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
             {listing.image_url ? (
               <Image
                 src={listing.image_url}
