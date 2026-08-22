@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@/app/lib/supabase/client";
-import { uploadImageToCloudinary } from "@/app/lib/cloudinary";
+import ImageUploader from "@/app/components/ImageUploader";
 
 import {
   listingSchema,
@@ -26,7 +26,6 @@ const categories = [
 export default function NewListingPage() {
   const [success, setSuccess] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -40,16 +39,8 @@ export default function NewListingPage() {
       price: undefined,
       category: "other",
       image_url: "",
-      image_file: "",
     },
   });
-
-  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      uploadImageToCloudinary(file).then(setImageUrl);
-    }
-  };
 
   async function onSubmit(data: ListingFormData) {
     setSuccess(false);
@@ -210,49 +201,7 @@ export default function NewListingPage() {
         </div>
 
         {/* Image */}
-        <div>
-          <label
-            htmlFor="image_file"
-            className="block font-medium mb-2"
-          >
-            Image
-          </label>
-
-          <input
-            type="file"
-            id="image_file"
-            accept="image/*"
-            {...register("image_file", { valueAsNumber: false })}
-            onChange={onFileChange}
-            className="w-full border rounded-lg p-3 hidden"
-            ref={fileRef}
-          />
-
-          {imageUrl && (
-            <div className="mt-2">
-              <img
-                src={imageUrl}
-                alt="Preview"
-                className="w-full h-40 object-cover rounded-lg"
-              />
-              <button
-                type="button"
-                onClick={() => {
-                  fileRef.current?.click();
-                }}
-                className="mt-2 text-blue-600 underline"
-              >
-                Change image
-              </button>
-            </div>
-          )}
-
-          {errors.image_file && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.image_file.message}
-            </p>
-          )}
-        </div>
+        <ImageUploader value={imageUrl} onChange={setImageUrl} label="Product Photo" />
 
         {/* Success */}
         {success && (

@@ -34,8 +34,6 @@ export const listingSchema = z.object({
     .url("Please enter a valid image URL")
     .optional()
     .or(z.literal("")),
-
-  image_file: z.string().optional(),
 });
 
 export type ListingFormData = z.infer<typeof listingSchema>;

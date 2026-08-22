@@ -145,11 +145,13 @@ export default function ListingPage({ listings }: ListingFiltersProps) {
                 href={`/listings/${listing.id}`}
                 className="border rounded-xl p-5 bg-white shadow-sm"
               >
-                <div className="h-48 rounded-lg bg-gray-100 mb-4 flex items-center justify-center overflow-hidden">
+                <div className="relative h-48 rounded-lg bg-gray-100 mb-4 flex items-center justify-center overflow-hidden">
                   {listing.image_url ? (
                     <Image
                       src={listing.image_url}
                       alt={listing.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
                       className="w-full h-full object-cover"
                     />
                   ) : (
