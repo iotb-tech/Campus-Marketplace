@@ -39,7 +39,6 @@ export default function LoginPage() {
                 className="flex items-center gap-2 text-primary font-medium hover:underline"
                 href="/"
               >
-                <span className="material-symbols-outlined">arrow_back</span>
                 Back to site
               </Link>
               <div className="lg:hidden flex items-center gap-2 text-primary">
@@ -54,7 +53,7 @@ export default function LoginPage() {
                     fill="currentColor"
                   />
                 </svg>
-                <span className="font-bold">Academic Exchange</span>
+                <span className="font-bold">CampusMarket</span>
               </div>
             </nav>
 
