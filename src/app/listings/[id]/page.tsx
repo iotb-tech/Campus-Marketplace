@@ -39,9 +39,7 @@ export default async function ListingDetailsPage({
   .eq("id", listing.user_id)
   .maybeSingle();
 
-console.log("LISTING USER ID:", listing.user_id);
-console.log("SELLER PROFILE:", sellerProfile);
-console.log("SELLER ERROR:", sellerError);
+
 
   // Check whether the current user owns this listing
   const isOwner = user?.id === listing.user_id;
