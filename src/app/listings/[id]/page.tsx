@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/app/lib/supabase/server";
+import DeleteListingButton from "@/app/components/DeleteListingButton";
 
 type ListingDetailsPageProps = {
   params: Promise<{
@@ -107,20 +108,20 @@ export default async function ListingDetailsPage({
           </div>
 
           {/* Owner actions */}
-          {isOwner && (
-            <div className="mt-8 flex gap-3">
-              <Link
-                href={`/listings/${listing.id}/edit`}
-                className="bg-blue-600 text-white px-5 py-3 rounded-lg font-medium hover:bg-blue-700 transition"
-              >
-                Edit Listing
-              </Link>
-            </div>
-          )}
-        </div>
-      </div>
+{isOwner && (
+  <div className="mt-8 flex gap-3">
+    <Link
+      href={`/listings/${listing.id}/edit`}
+      className="bg-blue-600 text-white px-5 py-3 rounded-lg font-medium hover:bg-blue-700 transition"
+    >
+      Edit Listing
+    </Link>
 
-      {/* Seller */}
+    <DeleteListingButton listingId={listing.id} />
+  </div>
+)}
+
+    
       {/* Seller */}
 <div className="mt-8 pt-6 border-t">
   <h2 className="text-lg font-semibold mb-4">
@@ -153,6 +154,9 @@ export default async function ListingDetailsPage({
     </div>
   </div>
 </div>
+</div>
+      </div>
     </main>
   );
 }
+  
