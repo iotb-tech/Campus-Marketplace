@@ -21,23 +21,27 @@ export default async function ListingDetailsPage({
   } = await supabase.auth.getUser();
 
   // Get the listing and seller profile
+  // Get the listing
   const { data: listing, error } = await supabase
     .from("listings")
-    .select(
-      `
-      *,
-      profiles (
-        name,
-        avatar_url
-      )
-    `,
-    )
+    .select("*")
     .eq("id", id)
     .single();
 
   if (error || !listing) {
     notFound();
   }
+
+  // Get the seller's profile
+  const { data: sellerProfile, error: sellerError } = await supabase
+  .from("profiles")
+  .select("name, avatar_url")
+  .eq("id", listing.user_id)
+  .maybeSingle();
+
+console.log("LISTING USER ID:", listing.user_id);
+console.log("SELLER PROFILE:", sellerProfile);
+console.log("SELLER ERROR:", sellerError);
 
   // Check whether the current user owns this listing
   const isOwner = user?.id === listing.user_id;
@@ -62,9 +66,7 @@ export default async function ListingDetailsPage({
               className="w-full h-full object-cover"
             />
           ) : (
-            <span className="text-gray-400">
-              No image available
-            </span>
+            <span className="text-gray-400">No image available</span>
           )}
         </div>
 
@@ -86,18 +88,14 @@ export default async function ListingDetailsPage({
             </span>
           </div>
 
-          <h1 className="text-3xl font-bold mt-3">
-            {listing.title}
-          </h1>
+          <h1 className="text-3xl font-bold mt-3">{listing.title}</h1>
 
           <p className="text-2xl font-bold mt-5">
             ₦{Number(listing.price).toLocaleString()}
           </p>
 
           <div className="mt-8">
-            <h2 className="text-lg font-semibold">
-              Description
-            </h2>
+            <h2 className="text-lg font-semibold">Description</h2>
 
             <p className="text-gray-600 mt-2 whitespace-pre-wrap">
               {listing.description}
@@ -105,13 +103,9 @@ export default async function ListingDetailsPage({
           </div>
 
           <div className="mt-8 pt-6 border-t">
-            <p className="text-sm text-gray-500">
-              Listing status
-            </p>
+            <p className="text-sm text-gray-500">Listing status</p>
 
-            <p className="font-medium capitalize mt-1">
-              {listing.status}
-            </p>
+            <p className="font-medium capitalize mt-1">{listing.status}</p>
           </div>
 
           {/* Owner actions */}
@@ -129,39 +123,38 @@ export default async function ListingDetailsPage({
       </div>
 
       {/* Seller */}
-      <div className="mt-8 pt-6 border-t">
-        <h2 className="text-lg font-semibold mb-4">
-          Seller
-        </h2>
+      {/* Seller */}
+<div className="mt-8 pt-6 border-t">
+  <h2 className="text-lg font-semibold mb-4">
+    Seller
+  </h2>
 
-        <div className="flex items-center gap-3">
-          {listing.profiles?.avatar_url ? (
-            <img
-              src={listing.profiles.avatar_url}
-              alt={listing.profiles.name}
-              className="w-12 h-12 rounded-full object-cover"
-            />
-          ) : (
-            <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
-              <span className="text-gray-500 font-semibold">
-                {listing.profiles?.name
-                  ?.charAt(0)
-                  .toUpperCase() || "?"}
-              </span>
-            </div>
-          )}
-
-          <div>
-            <p className="font-medium">
-              {listing.profiles?.name || "Unknown seller"}
-            </p>
-
-            <p className="text-sm text-gray-500">
-              Marketplace seller
-            </p>
-          </div>
-        </div>
+  <div className="flex items-center gap-3">
+    {sellerProfile?.avatar_url ? (
+      <img
+        src={sellerProfile.avatar_url}
+        alt={sellerProfile.name}
+        className="w-12 h-12 rounded-full object-cover"
+      />
+    ) : (
+      <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+        <span className="text-gray-500 font-semibold">
+          {sellerProfile?.name?.charAt(0).toUpperCase() || "?"}
+        </span>
       </div>
+    )}
+
+    <div>
+      <p className="font-medium">
+        {sellerProfile?.name || "Unknown seller"}
+      </p>
+
+      <p className="text-sm text-gray-500">
+        Marketplace seller
+      </p>
+    </div>
+  </div>
+</div>
     </main>
   );
 }
